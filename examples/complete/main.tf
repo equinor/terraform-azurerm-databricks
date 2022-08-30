@@ -36,7 +36,6 @@ module "databricks" {
   workspace_name              = "dbw-${random_id.this.hex}"
   resource_group_name         = azurerm_resource_group.this.name
   location                    = azurerm_resource_group.this.location
-  sku                         = "premium"
   managed_resource_group_name = "rg-dbw-${random_id.this.hex}"
   log_analytics_workspace_id  = module.log_analytics.workspace_id
 
