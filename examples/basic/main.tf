@@ -11,11 +11,11 @@ resource "azurerm_resource_group" "this" {
   location = var.location
 }
 
-module "databricks" {
+module "databricks_workspace" {
   # source = "github.com/equinor/terraform-azurerm-databricks//modules/workspace"
   source = "../../modules/workspace"
 
-  workspace_name      = "dbw-${random_id.this.hex}"
+  name                = "dbw-${random_id.this.hex}"
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
 }
