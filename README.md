@@ -41,5 +41,7 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id) | The ID of this Databricks workspace. |
 <!-- END_TF_DOCS -->
