@@ -11,20 +11,11 @@ resource "azurerm_resource_group" "this" {
   location = var.location
 }
 
-module "log_analytics" {
-  source = "github.com/equinor/terraform-azurerm-log-analytics?ref=v1.1.0"
+module "databricks_workspace" {
+  # source = "github.com/equinor/terraform-azurerm-databricks//modules/workspace"
+  source = "../../modules/workspace"
 
-  workspace_name      = "log-${random_id.this.hex}"
+  name                = "dbw-${random_id.this.hex}"
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
-}
-
-module "databricks" {
-  # source = "github.com/equinor/terraform-azurerm-databricks"
-  source = "../.."
-
-  workspace_name             = "dbw-${random_id.this.hex}"
-  resource_group_name        = azurerm_resource_group.this.name
-  location                   = azurerm_resource_group.this.location
-  log_analytics_workspace_id = module.log_analytics.workspace_id
 }
