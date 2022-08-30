@@ -1,6 +1,6 @@
 # Azure Databricks Terraform module
 
-Terraform module which creates an Azure Databricks workspace.
+Terraform module which creates Azure Databricks resources.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
