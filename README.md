@@ -1,6 +1,6 @@
-# Azure Foobar Terraform module
+# Azure Databricks Terraform module
 
-Terraform module which creates an Azure Foobar resource.
+Terraform module which creates an Azure Databricks workspace.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
