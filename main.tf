@@ -1,9 +1,9 @@
 module "workspace" {
   source = "./modules/workspace"
 
-  name                        = var.workspace_name
-  resource_group_name         = var.resource_group_name
-  location                    = var.location
+  name                = var.workspace_name
+  resource_group_name = var.resource_group_name
+  location            = var.location
   # Premium SKU required for diagnostic settings
   # Ref: https://docs.microsoft.com/en-us/azure/databricks/administration-guide/account-settings/azure-diagnostic-logs#configure-diagnostic-log-delivery
   sku                         = "premium"
