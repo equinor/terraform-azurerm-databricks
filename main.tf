@@ -254,4 +254,24 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
       enabled = false
     }
   }
+
+  log {
+    category = "gitCredentials"
+    enabled  = false
+
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "webTerminal"
+    enabled  = false
+
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
 }
