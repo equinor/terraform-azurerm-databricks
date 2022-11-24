@@ -136,16 +136,6 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
   }
 
   log {
-    category = "RemoteHistoryService"
-    enabled  = false
-
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
     category = "databrickssql"
     enabled  = false
 
@@ -157,16 +147,6 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
 
   log {
     category = "deltaPipelines"
-    enabled  = false
-
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "RemoteHistoryService"
     enabled  = false
 
     retention_policy {
@@ -267,6 +247,26 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
 
   log {
     category = "unityCatalog"
+    enabled  = false
+
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "gitCredentials"
+    enabled  = false
+
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "webTerminal"
     enabled  = false
 
     retention_policy {
