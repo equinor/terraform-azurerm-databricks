@@ -6,9 +6,9 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
 
-func TestCompleteExample(t *testing.T) {
+func TestStandardDatabricksExample(t *testing.T) {
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: "../examples/complete",
+		TerraformDir: "../examples/standard-databricks",
 	})
 
 	defer terraform.Destroy(t, terraformOptions)
