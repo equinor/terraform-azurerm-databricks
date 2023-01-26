@@ -1,25 +1,25 @@
-module "workspace" {
-  source = "./modules/workspace"
-
-  name                = var.workspace_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  # Premium SKU required for diagnostic settings
-  # Ref: https://docs.microsoft.com/en-us/azure/databricks/administration-guide/account-settings/azure-diagnostic-logs#configure-diagnostic-log-delivery
-  sku                         = "premium"
+resource "azurerm_databricks_workspace" "this" {
+  name                        = var.workspace_name
+  resource_group_name         = var.resource_group_name
+  location                    = var.location
+  sku                         = var.sku
   managed_resource_group_name = var.managed_resource_group_name
 
   tags = var.tags
 }
 
 moved {
-  from = azurerm_databricks_workspace.this
-  to   = module.workspace.azurerm_databricks_workspace.this
+  from = module.workspace.azurerm_databricks_workspace.this
+  to   = azurerm_databricks_workspace.this
 }
 
 resource "azurerm_monitor_diagnostic_setting" "this" {
+  # Premium SKU required for diagnostic settings
+  # Ref: https://docs.microsoft.com/en-us/azure/databricks/administration-guide/account-settings/azure-diagnostic-logs#configure-diagnostic-log-delivery
+  count = var.sku == "premium" ? 1 : 0
+
   name                       = "audit-logs"
-  target_resource_id         = module.workspace.id
+  target_resource_id         = azurerm_databricks_workspace.this.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
   # Enable all log categories that do not cost to export
