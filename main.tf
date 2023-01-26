@@ -8,11 +8,6 @@ resource "azurerm_databricks_workspace" "this" {
   tags = var.tags
 }
 
-moved {
-  from = module.workspace.azurerm_databricks_workspace.this
-  to   = azurerm_databricks_workspace.this
-}
-
 resource "azurerm_monitor_diagnostic_setting" "this" {
   # Premium SKU required for diagnostic settings
   # Ref: https://docs.microsoft.com/en-us/azure/databricks/administration-guide/account-settings/azure-diagnostic-logs#configure-diagnostic-log-delivery
