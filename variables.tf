@@ -26,7 +26,7 @@ variable "managed_resource_group_name" {
 }
 
 variable "log_analytics_workspace_id" {
-  description = "The ID of the Log Analytics workspace to send diagnostics to. Required if sku is set to premium."
+  description = "The ID of the Log Analytics workspace to send diagnostics to."
   type        = string
   default     = null
 }
