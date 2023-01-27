@@ -31,6 +31,18 @@ variable "log_analytics_workspace_id" {
   default     = null
 }
 
+variable "diagnostic_setting" {
+  description = "A diagnostic setting to create for this Databricks workspace."
+
+  type = object({
+    name                       = optional(string, "audit-logs")
+    enabled_logs               = optional(list(string), ["accounts", "clusters", "dbfs", "instancePools", "jobs", "notebook", "secrets", "sqlPermissions", "ssh", "workspace"])
+    log_analytics_workspace_id = string
+  })
+
+  default = null
+}
+
 variable "tags" {
   description = "A map of tags to assign to the resources."
   type        = map(string)

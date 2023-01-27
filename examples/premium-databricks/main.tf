@@ -33,11 +33,14 @@ module "databricks" {
   # source = "github.com/equinor/terraform-azurerm-databricks"
   source = "../.."
 
-  workspace_name             = "dbw-${random_id.this.hex}"
-  resource_group_name        = azurerm_resource_group.this.name
-  location                   = azurerm_resource_group.this.location
-  sku                        = "premium"
-  log_analytics_workspace_id = module.log_analytics.workspace_id
+  workspace_name      = "dbw-${random_id.this.hex}"
+  resource_group_name = azurerm_resource_group.this.name
+  location            = azurerm_resource_group.this.location
+  sku                 = "premium"
+
+  diagnostic_setting = {
+    log_analytics_workspace_id = module.log_analytics.workspace_id
+  }
 
   tags = local.tags
 }
