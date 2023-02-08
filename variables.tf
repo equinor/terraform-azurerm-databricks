@@ -31,6 +31,12 @@ variable "log_analytics_workspace_id" {
   default     = null
 }
 
+variable "log_analytics_destination_type" {
+  description = "The type of log analytics destination to use for this Log Analytics Workspace."
+  type        = string
+  default     = null
+}
+
 variable "tags" {
   description = "A map of tags to assign to the resources."
   type        = map(string)
