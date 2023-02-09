@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.1.0...v3.1.1) (2023-02-09)
+
+
+### Bug Fixes
+
+* disable log categories ([#14](https://github.com/equinor/terraform-azurerm-databricks/issues/14)) ([299faa3](https://github.com/equinor/terraform-azurerm-databricks/commit/299faa3d1d1d434ac9df4a1557e7e76d3b31aab5))
+
 ## [3.1.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.0.0...v3.1.0) (2023-02-08)
 
 
