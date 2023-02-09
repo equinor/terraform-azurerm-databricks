@@ -60,66 +60,6 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
     category = "workspace"
   }
 
-  enabled_log {
-    category = "RemoteHistoryService"
-  }
-
-  enabled_log {
-    category = "databrickssql"
-  }
-
-  enabled_log {
-    category = "deltaPipelines"
-  }
-
-  enabled_log {
-    category = "featureStore"
-  }
-
-  enabled_log {
-    category = "genie"
-  }
-
-  enabled_log {
-    category = "globalInitScripts"
-  }
-
-  enabled_log {
-    category = "iamRole"
-  }
-
-  enabled_log {
-    category = "mlflowAcledArtifact"
-  }
-
-  enabled_log {
-    category = "mlflowExperiment"
-  }
-
-  enabled_log {
-    category = "modelRegistry"
-  }
-
-  enabled_log {
-    category = "repos"
-  }
-
-  enabled_log {
-    category = "sqlanalytics"
-  }
-
-  enabled_log {
-    category = "unityCatalog"
-  }
-
-  enabled_log {
-    category = "gitCredentials"
-  }
-
-  enabled_log {
-    category = "webTerminal"
-  }
-
   lifecycle {
     precondition {
       condition     = var.log_analytics_workspace_id != null
