@@ -37,6 +37,32 @@ variable "log_analytics_destination_type" {
   default     = null
 }
 
+variable "diagnostic_setting_name" {
+  description = "The name of this diagnostic setting."
+  type        = string
+  default     = "audit-logs"
+}
+
+# Enable all log categories that do not cost to export
+# Ref: https://docs.microsoft.com/en-us/azure/azure-monitor/essentials/resource-logs-categories#microsoftdatabricksworkspaces
+variable "diagnostic_setting_enabled_log_categories" {
+  description = "A list of log categories to be enabled for this diagnostic setting."
+  type        = list(string)
+
+  default = [
+    "accounts",
+    "clusters",
+    "dbfs",
+    "instancePools",
+    "jobs",
+    "notebook",
+    "secrets",
+    "sqlPermissions",
+    "ssh",
+    "workspace"
+  ]
+}
+
 variable "tags" {
   description = "A map of tags to assign to the resources."
   type        = map(string)

@@ -13,51 +13,16 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
   # Ref: https://docs.microsoft.com/en-us/azure/databricks/administration-guide/account-settings/azure-diagnostic-logs#configure-diagnostic-log-delivery
   count = var.sku == "premium" ? 1 : 0
 
-  name                       = "audit-logs"
+  name                       = var.diagnostic_setting_name
   target_resource_id         = azurerm_databricks_workspace.this.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  # Enable all log categories that do not cost to export
-  # Ref: https://docs.microsoft.com/en-us/azure/azure-monitor/essentials/resource-logs-categories#microsoftdatabricksworkspaces
+  dynamic "enabled_log" {
+    for_each = toset(var.diagnostic_setting_enabled_log_categories)
 
-  enabled_log {
-    category = "accounts"
-  }
-
-  enabled_log {
-    category = "clusters"
-  }
-
-  enabled_log {
-    category = "dbfs"
-  }
-
-  enabled_log {
-    category = "instancePools"
-  }
-
-  enabled_log {
-    category = "jobs"
-  }
-
-  enabled_log {
-    category = "notebook"
-  }
-
-  enabled_log {
-    category = "secrets"
-  }
-
-  enabled_log {
-    category = "sqlPermissions"
-  }
-
-  enabled_log {
-    category = "ssh"
-  }
-
-  enabled_log {
-    category = "workspace"
+    content {
+      category = enabled_log.value
+    }
   }
 
   lifecycle {
