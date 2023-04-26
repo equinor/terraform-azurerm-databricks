@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.1.1...v3.2.0) (2023-04-26)
+
+
+### Features
+
+* set diagnostic setting enabled log categories ([#18](https://github.com/equinor/terraform-azurerm-databricks/issues/18)) ([03f7c61](https://github.com/equinor/terraform-azurerm-databricks/commit/03f7c61af0c08411cca44eb4ffaa0d3e8f38db2c))
+
 ## [3.1.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.1.0...v3.1.1) (2023-02-09)
 
 
