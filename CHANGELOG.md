@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.2.0...v3.2.1) (2023-07-26)
+
+
+### Bug Fixes
+
+* don't specify Log Analytics destination type ([#20](https://github.com/equinor/terraform-azurerm-databricks/issues/20)) ([218e475](https://github.com/equinor/terraform-azurerm-databricks/commit/218e4754abfebad0ff904a4f28669ccad0278666))
+
 ## [3.2.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.1.1...v3.2.0) (2023-04-26)
 
 
