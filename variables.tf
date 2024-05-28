@@ -14,7 +14,7 @@ variable "location" {
 }
 
 variable "sku" {
-  description = "The SKU of this Databricks workspace."
+  description = "The SKU of this Databricks workspace. Value must be \"standard\", \"premium\" or \"trial\"."
   type        = string
   default     = "standard"
 }
