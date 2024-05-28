@@ -49,20 +49,20 @@ variable "load_balancer_backend_address_pool_id" {
   default     = null
 }
 
-variable "managed_disk_cmk_key_vault_id" {
-  description = "Resource ID of the Key Vault which contains the 'managed_services_cmk_key_vault_key_id' key. This field is only required if the key vault exists in another subscription."
+variable "managed_disk_cmk_key_vault_key_id" {
+  description = "The ID of a Key Vault key to be used for encryption of managed disks using customer-managed key."
   type        = string
   default     = null
 }
 
-variable "managed_disk_cmk_key_vault_key_id" {
-  description = "Key to enable customer managed encryption properties for the Databricks Workspace managed disks."
+variable "managed_disk_cmk_key_vault_id" {
+  description = "The ID of the Key Vault containing the key to be used for encryption of managed disks using customer-managed key. Only required if the Key Vault exists in a different subscription than this Databricks workspace."
   type        = string
   default     = null
 }
 
 variable "managed_disk_cmk_rotation_to_latest_version_enabled" {
-  description = "Enable automatic rotation of encryptyion keys based on the latest version."
+  description = "Should automatic rotation to latest version of the customer-managed key used for encryption of managed disks be enabled?"
   type        = bool
   default     = null
 }
