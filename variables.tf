@@ -67,14 +67,14 @@ variable "managed_disk_cmk_rotation_to_latest_version_enabled" {
   default     = null
 }
 
-variable "managed_services_cmk_key_vault_id" {
-  description = "Resource ID of the Key Vault which contains the 'managed_disk_cmk_key_vault_key_id' key. This field is only required if the key vault exists in another subscription."
+variable "managed_services_cmk_key_vault_key_id" {
+  description = "The ID of a Key Vault key to be used for encryption of managed services (e.g. notebooks and artifacts) using customer-managed key."
   type        = string
   default     = null
 }
 
-variable "managed_services_cmk_key_vault_key_id" {
-  description = "Key to enable customer managed encryption properties for the Databricks Workspace managed resources(e.g. Notebooks and Artifacts)."
+variable "managed_services_cmk_key_vault_id" {
+  description = "The ID of the Key Vault containing the key to be used for encryption of managed services using customer-managed key. Only required if the Key Vault exists in a different subscription than this Databricks workspace."
   type        = string
   default     = null
 }
