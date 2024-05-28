@@ -13,8 +13,14 @@ variable "location" {
   type        = string
 }
 
+variable "default_storage_firewall_enabled" {
+  description = "Should the firewall be enabled for the default Storage account?"
+  type        = bool
+  default     = false
+}
+
 variable "access_connector_id" {
-  description = "Access Connector ID to use when default storage account firewall is enabled. This is required when 'default_storage_firewall_enabled' is set to true."
+  description = "The ID of the access connector to use if the firewall is enabled for the default Storage account. Required if value of default_storage_firewall_enabled is true."
   type        = string
   default     = null
 }
@@ -23,12 +29,6 @@ variable "customer_managed_key_enabled" {
   description = "Should customer-managed key for encryption be enabled for this Databricks workspace? Only valid if value of sku is \"premium\"."
   type        = bool
   default     = false
-}
-
-variable "default_storage_firewall_enabled" {
-  description = "Disallow public access to default storage account. Defaults to false"
-  type        = bool
-  default     = null
 }
 
 variable "infrastructure_encryption_enabled" {
