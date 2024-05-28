@@ -32,7 +32,7 @@ variable "customer_managed_key_enabled" {
 }
 
 variable "infrastructure_encryption_enabled" {
-  description = "Is the Databricks File System root file system enabled with a secondary layer of encryption with platform managed keys? Defaults to false. This field is only valid if the Databricks Workspace sku is set to premium. Changing this forces a new resource to be created."
+  description = "Should a secondary layer of encryption be enabled for the root file system? Only valid if value of sku is \"premium\"."
   type        = bool
   default     = false
 }
