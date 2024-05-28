@@ -20,7 +20,7 @@ variable "access_connector_id" {
 }
 
 variable "customer_managed_key_enabled" {
-  description = "Is the workspace enabled for customer managed key encryption? If true this enables the Managed Identity for the managed storage account. Possible values are true or false. Defaults to false. This field is only valid if the Databricks Workspace sku is set to premium."
+  description = "Should customer-managed key for encryption be enabled for this Databricks workspace? Only valid if value of sku is \"premium\"."
   type        = bool
   default     = false
 }
