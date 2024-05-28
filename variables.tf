@@ -19,6 +19,12 @@ variable "sku" {
   default     = "standard"
 }
 
+variable "log_analytics_workspace_id" {
+  description = "The ID of a Log Analytics workspace to send diagnostics to. Required if value of sku is \"premium\"."
+  type        = string
+  default     = null
+}
+
 variable "default_storage_firewall_enabled" {
   description = "Should the firewall be enabled for the default Storage account?"
   type        = bool
@@ -85,14 +91,14 @@ variable "managed_resource_group_name" {
   default     = null
 }
 
-variable "network_security_group_rules_required" {
-  description = "Does the data plane (clusters) to control plane communication happen over private link endpoint only or publicly? Possible values 'AllRules', 'NoAzureDatabricksRules' or 'NoAzureServiceRules'. Required when 'public_network_access_enabled' is set to 'false'"
-  type        = string
-  default     = null
+variable "public_network_access_enabled" {
+  description = "Should public network access be enabled for this Databricks workspace?"
+  type        = bool
+  default     = true
 }
 
-variable "log_analytics_workspace_id" {
-  description = "The ID of the Log Analytics workspace to send diagnostics to."
+variable "network_security_group_rules_required" {
+  description = "The network security group rules required for data plane (clusters) to control plane (Azure) communication. Value must be \"AllRules\", \"NoAzureDatabricksRules\" (internal) or \"NoAzureServiceRules\". Required if value of public_network_access_enabled is false."
   type        = string
   default     = null
 }
@@ -127,12 +133,6 @@ variable "tags" {
   description = "A map of tags to assign to the resources."
   type        = map(string)
   default     = {}
-}
-
-variable "public_network_access_enabled" {
-  description = "Should databricks workspace be reachable from the internet?"
-  type        = bool
-  default     = true
 }
 
 
