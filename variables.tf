@@ -13,6 +13,12 @@ variable "location" {
   type        = string
 }
 
+variable "sku" {
+  description = "The SKU of this Databricks workspace."
+  type        = string
+  default     = "standard"
+}
+
 variable "default_storage_firewall_enabled" {
   description = "Should the firewall be enabled for the default Storage account?"
   type        = bool
@@ -38,15 +44,9 @@ variable "infrastructure_encryption_enabled" {
 }
 
 variable "load_balancer_backend_address_pool_id" {
-  description = "Resource ID of the Outbound Load balancer Backend Address Pool for Secure Cluster Connectivity (No Public IP) workspace. Changing this forces a new resource to be created."
+  description = "The ID of a load balancer backend address pool to be used for secure cluster connectivity (also known as \"No Public IP\" or NPIP)."
   type        = string
   default     = null
-}
-
-variable "sku" {
-  description = "The SKU of this Databricks workspace."
-  type        = string
-  default     = "standard"
 }
 
 variable "managed_disk_cmk_key_vault_id" {
