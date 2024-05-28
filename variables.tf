@@ -140,67 +140,73 @@ variable "tags" {
 # Custom Parameters
 #
 variable "machine_learning_workspace_id" {
-  description = "The ID of a Azure Machine Learning workspace to link with Databricks workspace. Changing this forces a new resource to be created."
+  description = "The ID of a Machine Learning workspace to link with this Databricks workspace."
   type        = string
   default     = null
 }
 
 variable "nat_gateway_name" {
-  description = "Name of the NAT Gateway. Defaults to 'nat-gateway'"
+  description = "The name of the NAT gateway to be created for this Databricks workspace."
   type        = string
   default     = null
 }
 
 variable "public_ip_name" {
-  description = "Name of the public IP for the NAT Gateway. Defaults to 'nat-gw-public-ip'"
+  description = "The name of the Public IP address to be created for this Databricks workspace."
   type        = string
   default     = null
 }
 
 variable "no_public_ip" {
-  description = "Should public ip be disabled for clusters? Can only be set to true for VNet injected clusters."
+  description = "Should Public IP be disabled for clusters?"
   type        = bool
+  default     = false
+}
+
+variable "vnet_address_prefix" {
+  description = "The address prefix to use for a managed Virtual Network to be created for this Databricks workspace."
+  type        = string
+  default     = null
+}
+
+variable "virtual_network_id" {
+  description = "The ID of an existing Virtual Network to inject this Databricks workspace into."
+  type        = string
+  default     = null
+}
+
+variable "private_subnet_name" {
+  description = "The name of the subnet to use as the private subnet. Subnet must be delegated to \"Microsoft.Databricks/workspaces\". Required if virtual_network_id is set."
+  type        = string
   default     = null
 }
 
 variable "private_subnet_network_security_group_association_id" {
-  description = "Id of the Network Security Group subnet association for the private subnet"
+  description = "The ID of the subnet network security group association for the private subnet. Required if virtual_network_id is set."
+  type        = string
+  default     = null
+}
+
+variable "public_subnet_name" {
+  description = "The name of the subnet to use as the public subnet. Subnet must be delegated to \"Microsoft.Databricks/workspaces\". Required if virtual_network_id is set."
   type        = string
   default     = null
 }
 
 variable "public_subnet_network_security_group_association_id" {
-  description = "Id of the Network Security Group subnet association for the public subnet"
-  type        = string
-  default     = null
-}
-
-variable "private_subnet_id" {
-  description = "Address prefix for the private subnet. Subnet must be in the same vnet as the public subnet. Subnet must be delegated to 'Microsoft.Databricks/workspaces'."
-  type        = string
-  default     = null
-}
-
-variable "public_subnet_id" {
-  description = "Address prefix for the public subnet. Subnet must be in the same vnet as the private subnet. Subnet must be delegated to 'Microsoft.Databricks/workspaces'."
+  description = "The ID of the subnet network security group association for the public subnet. Required if virtual_network_id is set."
   type        = string
   default     = null
 }
 
 variable "storage_account_name" {
-  description = "Default Databricks File Storage account name. Defaults to a randomized name(e.g. dbstoragel6mfeghoe5kxu). Changing this forces a new resource to be created."
+  description = "The name of the Storage account to be created for this Databricks workspace."
   type        = string
   default     = null
 }
 
 variable "storage_account_sku_name" {
-  description = "Storage account SKU name. Possible values include Standard_LRS, Standard_GRS, Standard_RAGRS, Standard_GZRS, Standard_RAGZRS, Standard_ZRS, Premium_LRS or Premium_ZRS. Defaults to Standard_GRS. Changing this forces a new resource to be created."
+  description = "The SKU name of the Storage account to be crated for this Databricks workspace. Value must be \"Standard_LRS\", \"Standard_GRS\", \"Standard_RAGRS\", \"Standard_GZRS\", \"Standard_RAGZRS\", \"Standard_ZRS\", \"Premium_LRS\" or \"Premium_ZRS\"."
   type        = string
-  default     = null
-}
-
-variable "vnet_address_prefix" {
-  description = "Address prefix for the virtual network"
-  type        = string
-  default     = null
+  default     = "Standard_GRS"
 }
