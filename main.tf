@@ -22,13 +22,13 @@ resource "azurerm_databricks_workspace" "this" {
     nat_gateway_name                                     = var.nat_gateway_name
     public_ip_name                                       = var.public_ip_name
     no_public_ip                                         = var.no_public_ip
-    public_subnet_name                                   = var.private_subnet_id != null ? local.private_subnet_parsed.subnet_name : null
+    public_subnet_name                                   = var.public_subnet_name
     public_subnet_network_security_group_association_id  = var.public_subnet_network_security_group_association_id
-    private_subnet_name                                  = var.public_subnet_id != null ? local.public_subnet_parsed.subnet_name : null
+    private_subnet_name                                  = var.private_subnet_name
     private_subnet_network_security_group_association_id = var.private_subnet_network_security_group_association_id
     storage_account_name                                 = var.storage_account_name
     storage_account_sku_name                             = var.storage_account_sku_name
-    virtual_network_id                                   = var.private_subnet_id != null ? local.vnet_parsed.vnet_id : null
+    virtual_network_id                                   = var.virtual_network_id
     vnet_address_prefix                                  = var.vnet_address_prefix
   }
 
@@ -61,13 +61,4 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
       error_message = "log_analytics_workspace_id must be set when sku is set to \"premium\"."
     }
   }
-}
-
-#
-# Networking
-#
-locals {
-  private_subnet_parsed = regex(".*/resourcegroups/(?P<resource_group>.*?)/providers/microsoft.network/virtualnetworks/(?P<vnet_name>.*?)/subnets/(?P<subnet_name>.*?)$", lower(var.private_subnet_id))
-  public_subnet_parsed  = regex(".*/resourcegroups/(?P<resource_group>.*?)/providers/microsoft.network/virtualnetworks/(?P<vnet_name>.*?)/subnets/(?P<subnet_name>.*?)$", lower(var.public_subnet_id))
-  vnet_parsed           = regex("(?P<vnet_id>.*?)/subnets/.*?$", var.public_subnet_id)
 }
