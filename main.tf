@@ -22,9 +22,9 @@ resource "azurerm_databricks_workspace" "this" {
     nat_gateway_name                                     = var.nat_gateway_name
     public_ip_name                                       = var.public_ip_name
     no_public_ip                                         = var.no_public_ip
-    public_subnet_name                                   = var.private_subnet_id != null ? local.private_subnet_parsed.subnet_name : null
+    public_subnet_name                                   = var.public_subnet_id != null ? local.public_subnet_parsed.subnet_name : null
     public_subnet_network_security_group_association_id  = var.public_subnet_network_security_group_association_id
-    private_subnet_name                                  = var.public_subnet_id != null ? local.public_subnet_parsed.subnet_name : null
+    private_subnet_name                                  = var.private_subnet_id != null ? local.private_subnet_parsed.subnet_name : null
     private_subnet_network_security_group_association_id = var.private_subnet_network_security_group_association_id
     storage_account_name                                 = var.storage_account_name
     storage_account_sku_name                             = var.storage_account_sku_name
