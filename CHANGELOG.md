@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.2](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.2.1...v3.2.2) (2024-08-28)
+
+
+### Miscellaneous Chores
+
+* update variable descriptions and add features list ([#40](https://github.com/equinor/terraform-azurerm-databricks/issues/40)) ([eb50254](https://github.com/equinor/terraform-azurerm-databricks/commit/eb50254db4a0fc16c788229d264d2c20effd5020))
+
 ## [3.2.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.2.0...v3.2.1) (2023-07-26)
 
 
