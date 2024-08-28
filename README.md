@@ -6,6 +6,10 @@
 
 Terraform module which creates Azure Databricks resources.
 
+## Features
+
+- Audit logs sent to given Log Analytics workspace by default (premium SKU only).
+
 ## Development
 
 1. Read [this document](https://code.visualstudio.com/docs/devcontainers/containers).
