@@ -199,7 +199,7 @@ variable "private_subnet_network_security_group_association_id" {
   description = "The ID of the subnet network security group association for the private subnet. Required if virtual_network_id is set."
   type        = string
   default     = null
-}db-pe
+}
 
 variable "public_subnet_name" {
   description = "The name of the subnet to use as the public subnet. Subnet must be delegated to \"Microsoft.Databricks/workspaces\". Required if virtual_network_id is set."
