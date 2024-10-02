@@ -13,68 +13,74 @@ variable "location" {
   type        = string
 }
 
+variable "sku" {
+  description = "The SKU of this Databricks workspace. Value must be \"standard\", \"premium\" or \"trial\"."
+  type        = string
+  default     = "standard"
+}
+
+variable "log_analytics_workspace_id" {
+  description = "The ID of a Log Analytics workspace to send diagnostics to. Required if value of sku is \"premium\"."
+  type        = string
+  default     = null
+}
+
+variable "default_storage_firewall_enabled" {
+  description = "Should the firewall be enabled for the default Storage account?"
+  type        = bool
+  default     = false
+}
+
 variable "access_connector_id" {
-  description = "Access Connector ID to use when default storage account firewall is enabled. This is required when 'default_storage_firewall_enabled' is set to true."
+  description = "The ID of the access connector to use if the firewall is enabled for the default Storage account. Required if value of default_storage_firewall_enabled is true."
   type        = string
   default     = null
 }
 
 variable "customer_managed_key_enabled" {
-  description = "Is the workspace enabled for customer managed key encryption? If true this enables the Managed Identity for the managed storage account. Possible values are true or false. Defaults to false. This field is only valid if the Databricks Workspace sku is set to premium."
+  description = "Should customer-managed key for encryption be enabled for this Databricks workspace? Only valid if value of sku is \"premium\"."
   type        = bool
   default     = false
 }
 
-variable "default_storage_firewall_enabled" {
-  description = "Disallow public access to default storage account. Defaults to false"
-  type        = bool
-  default     = null
-}
-
 variable "infrastructure_encryption_enabled" {
-  description = "Is the Databricks File System root file system enabled with a secondary layer of encryption with platform managed keys? Defaults to false. This field is only valid if the Databricks Workspace sku is set to premium. Changing this forces a new resource to be created."
+  description = "Should a secondary layer of encryption be enabled for the root file system? Only valid if value of sku is \"premium\"."
   type        = bool
   default     = false
 }
 
 variable "load_balancer_backend_address_pool_id" {
-  description = "Resource ID of the Outbound Load balancer Backend Address Pool for Secure Cluster Connectivity (No Public IP) workspace. Changing this forces a new resource to be created."
-  type        = string
-  default     = null
-}
-
-variable "sku" {
-  description = "The SKU of this Databricks workspace."
-  type        = string
-  default     = "standard"
-}
-
-variable "managed_disk_cmk_key_vault_id" {
-  description = "Resource ID of the Key Vault which contains the 'managed_services_cmk_key_vault_key_id' key. This field is only required if the key vault exists in another subscription."
+  description = "The ID of a load balancer backend address pool to be used for secure cluster connectivity (also known as \"No Public IP\" or NPIP)."
   type        = string
   default     = null
 }
 
 variable "managed_disk_cmk_key_vault_key_id" {
-  description = "Key to enable customer managed encryption properties for the Databricks Workspace managed disks."
+  description = "The ID of a Key Vault key to be used for encryption of managed disks using customer-managed key."
+  type        = string
+  default     = null
+}
+
+variable "managed_disk_cmk_key_vault_id" {
+  description = "The ID of the Key Vault containing the key to be used for encryption of managed disks using customer-managed key. Only required if the Key Vault exists in a different subscription than this Databricks workspace."
   type        = string
   default     = null
 }
 
 variable "managed_disk_cmk_rotation_to_latest_version_enabled" {
-  description = "Enable automatic rotation of encryptyion keys based on the latest version."
+  description = "Should automatic rotation to latest version of the customer-managed key used for encryption of managed disks be enabled?"
   type        = bool
   default     = null
 }
 
-variable "managed_services_cmk_key_vault_id" {
-  description = "Resource ID of the Key Vault which contains the 'managed_disk_cmk_key_vault_key_id' key. This field is only required if the key vault exists in another subscription."
+variable "managed_services_cmk_key_vault_key_id" {
+  description = "The ID of a Key Vault key to be used for encryption of managed services (e.g. notebooks and artifacts) using customer-managed key."
   type        = string
   default     = null
 }
 
-variable "managed_services_cmk_key_vault_key_id" {
-  description = "Key to enable customer managed encryption properties for the Databricks Workspace managed resources(e.g. Notebooks and Artifacts)."
+variable "managed_services_cmk_key_vault_id" {
+  description = "The ID of the Key Vault containing the key to be used for encryption of managed services using customer-managed key. Only required if the Key Vault exists in a different subscription than this Databricks workspace."
   type        = string
   default     = null
 }
@@ -85,14 +91,14 @@ variable "managed_resource_group_name" {
   default     = null
 }
 
-variable "network_security_group_rules_required" {
-  description = "Does the data plane (clusters) to control plane communication happen over private link endpoint only or publicly? Possible values 'AllRules', 'NoAzureDatabricksRules' or 'NoAzureServiceRules'. Required when 'public_network_access_enabled' is set to 'false'"
-  type        = string
-  default     = null
+variable "public_network_access_enabled" {
+  description = "Should public network access be enabled for this Databricks workspace?"
+  type        = bool
+  default     = true
 }
 
-variable "log_analytics_workspace_id" {
-  description = "The ID of the Log Analytics workspace to send diagnostics to."
+variable "network_security_group_rules_required" {
+  description = "The network security group rules required for data plane (clusters) to control plane (Azure) communication. Value must be \"AllRules\", \"NoAzureDatabricksRules\" (internal) or \"NoAzureServiceRules\". Required if value of public_network_access_enabled is false."
   type        = string
   default     = null
 }
@@ -129,78 +135,78 @@ variable "tags" {
   default     = {}
 }
 
-variable "public_network_access_enabled" {
-  description = "Should databricks workspace be reachable from the internet?"
-  type        = bool
-  default     = true
-}
-
 
 #
 # Custom Parameters
 #
 variable "machine_learning_workspace_id" {
-  description = "The ID of a Azure Machine Learning workspace to link with Databricks workspace. Changing this forces a new resource to be created."
+  description = "The ID of a Machine Learning workspace to link with this Databricks workspace."
   type        = string
   default     = null
 }
 
 variable "nat_gateway_name" {
-  description = "Name of the NAT Gateway. Defaults to 'nat-gateway'"
+  description = "The name of the NAT gateway to be created for this Databricks workspace."
   type        = string
   default     = null
 }
 
 variable "public_ip_name" {
-  description = "Name of the public IP for the NAT Gateway. Defaults to 'nat-gw-public-ip'"
+  description = "The name of the Public IP address to be created for this Databricks workspace."
   type        = string
   default     = null
 }
 
 variable "no_public_ip" {
-  description = "Should public ip be disabled for clusters? Can only be set to true for VNet injected clusters."
+  description = "Should Public IP be disabled for clusters?"
   type        = bool
+  default     = false
+}
+
+variable "vnet_address_prefix" {
+  description = "The address prefix to use for a managed Virtual Network to be created for this Databricks workspace."
+  type        = string
+  default     = null
+}
+
+variable "virtual_network_id" {
+  description = "The ID of an existing Virtual Network to inject this Databricks workspace into."
+  type        = string
+  default     = null
+}
+
+variable "private_subnet_name" {
+  description = "The name of the subnet to use as the private subnet. Subnet must be delegated to \"Microsoft.Databricks/workspaces\". Required if virtual_network_id is set."
+  type        = string
   default     = null
 }
 
 variable "private_subnet_network_security_group_association_id" {
-  description = "Id of the Network Security Group subnet association for the private subnet"
+  description = "The ID of the subnet network security group association for the private subnet. Required if virtual_network_id is set."
+  type        = string
+  default     = null
+}
+
+variable "public_subnet_name" {
+  description = "The name of the subnet to use as the public subnet. Subnet must be delegated to \"Microsoft.Databricks/workspaces\". Required if virtual_network_id is set."
   type        = string
   default     = null
 }
 
 variable "public_subnet_network_security_group_association_id" {
-  description = "Id of the Network Security Group subnet association for the public subnet"
-  type        = string
-  default     = null
-}
-
-variable "private_subnet_id" {
-  description = "Address prefix for the private subnet. Subnet must be in the same vnet as the public subnet. Subnet must be delegated to 'Microsoft.Databricks/workspaces'."
-  type        = string
-  default     = null
-}
-
-variable "public_subnet_id" {
-  description = "Address prefix for the public subnet. Subnet must be in the same vnet as the private subnet. Subnet must be delegated to 'Microsoft.Databricks/workspaces'."
+  description = "The ID of the subnet network security group association for the public subnet. Required if virtual_network_id is set."
   type        = string
   default     = null
 }
 
 variable "storage_account_name" {
-  description = "Default Databricks File Storage account name. Defaults to a randomized name(e.g. dbstoragel6mfeghoe5kxu). Changing this forces a new resource to be created."
+  description = "The name of the Storage account to be created for this Databricks workspace."
   type        = string
   default     = null
 }
 
 variable "storage_account_sku_name" {
-  description = "Storage account SKU name. Possible values include Standard_LRS, Standard_GRS, Standard_RAGRS, Standard_GZRS, Standard_RAGZRS, Standard_ZRS, Premium_LRS or Premium_ZRS. Defaults to Standard_GRS. Changing this forces a new resource to be created."
+  description = "The SKU name of the Storage account to be crated for this Databricks workspace. Value must be \"Standard_LRS\", \"Standard_GRS\", \"Standard_RAGRS\", \"Standard_GZRS\", \"Standard_RAGZRS\", \"Standard_ZRS\", \"Premium_LRS\" or \"Premium_ZRS\"."
   type        = string
-  default     = null
-}
-
-variable "vnet_address_prefix" {
-  description = "Address prefix for the virtual network"
-  type        = string
-  default     = null
+  default     = "Standard_GRS"
 }
