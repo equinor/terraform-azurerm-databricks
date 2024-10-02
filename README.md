@@ -1,9 +1,14 @@
 # Azure Databricks Terraform module
 
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![SCM Compliance](https://scm-compliance-api.radix.equinor.com/repos/equinor/terraform-azurerm-databricks/badge)](https://scm-compliance-api.radix.equinor.com/repos/equinor/terraform-azurerm-databricks/badge)
 [![Equinor Terraform Baseline](https://img.shields.io/badge/Equinor%20Terraform%20Baseline-1.0.0-blueviolet)](https://github.com/equinor/terraform-baseline)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 Terraform module which creates Azure Databricks resources.
+
+## Features
+
+- Audit logs sent to given Log Analytics workspace by default (premium SKU only).
 
 ## Development
 
