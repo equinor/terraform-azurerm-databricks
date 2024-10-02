@@ -9,6 +9,6 @@ output "workspace_name" {
 }
 
 output "workspace_url" {
-  description = "The url of this Databricks workspace."
+  description = "The URL of this Databricks workspace."
   value       = azurerm_databricks_workspace.this.workspace_url
 }
