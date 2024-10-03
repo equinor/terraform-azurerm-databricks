@@ -36,7 +36,7 @@ variable "log_analytics_workspace_id" {
 variable "default_storage_firewall_enabled" {
   description = "Should the firewall be enabled for the default Storage account?"
   type        = bool
-  default     = false
+  default     = null
 }
 
 variable "access_connector_id" {
