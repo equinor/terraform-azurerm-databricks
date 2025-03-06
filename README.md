@@ -45,15 +45,6 @@ Terraform module which creates Azure Databricks resources.
       name     = "example-resources"
       location = "westeurope"
     }
-
-    module "log_analytics" {
-      source  = "equinor/log-analytics/azurerm"
-      version = "~> 2.0"
-
-      workspace_name      = "example-workspace"
-      resource_group_name = azurerm_resource_group.example.name
-      location            = azurerm_resource_group.example.location
-    }
     ```
 
 1. Install required provider plugins and modules:
