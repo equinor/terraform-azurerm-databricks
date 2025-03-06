@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.2.2...v3.3.0) (2025-03-06)
+
+
+### Features
+
+* add variables for all arguments ([#35](https://github.com/equinor/terraform-azurerm-databricks/issues/35)) ([349941d](https://github.com/equinor/terraform-azurerm-databricks/commit/349941db80d7beb8180e697a87c74e3123f96b1d))
+
 ## [3.2.2](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.2.1...v3.2.2) (2024-08-28)
 
 
