@@ -34,7 +34,7 @@ Terraform module which creates Azure Databricks resources.
 
     module "databricks" {
       source  = "equinor/databricks/azurerm"
-      version = "~> 3.2"
+      version = "~> 3.3"
 
       workspace_name      = "example-dbw"
       resource_group_name = azurerm_resource_group.example.name
