@@ -1,4 +1,4 @@
-# Azure Databricks Terraform module
+# Terraform module for Azure Databricks
 
 [![SCM Compliance](https://scm-compliance-api.radix.equinor.com/repos/equinor/terraform-azurerm-databricks/badge)](https://scm-compliance-api.radix.equinor.com/repos/equinor/terraform-azurerm-databricks/badge)
 [![Equinor Terraform Baseline](https://img.shields.io/badge/Equinor%20Terraform%20Baseline-1.0.0-blueviolet)](https://github.com/equinor/terraform-baseline)
