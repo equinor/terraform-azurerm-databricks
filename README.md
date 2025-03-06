@@ -9,12 +9,64 @@ Terraform module which creates Azure Databricks resources.
 
 ## Features
 
-- Audit logs sent to given Log Analytics workspace by default (premium SKU only).
+- Standard tier Databricks workspace created by default.
+- *(Premium tier only)* Audit logs sent to given Log Analytics workspace by default.
 
 ## Prerequisites
 
 - Azure role `Contributor` resource group scope.
 - Azure role `Log Analytics Contributor` at the Log Analytics workspace scope.
+
+## Usage
+
+1. Login to Azure:
+
+    ```console
+    az login
+    ```
+
+1. Create a Terraform configuration file `main.tf` and add the following example configuration:
+
+    ```terraform
+    provider "azurerm" {
+      features {}
+    }
+
+    module "databricks" {
+      source  = "equinor/databricks/azurerm"
+      version = "~> 3.2"
+
+      workspace_name      = "example-dbw"
+      resource_group_name = azurerm_resource_group.example.name
+      location            = azurerm_resource_group.example.location
+    }
+
+    resource "azurerm_resource_group" "example" {
+      name     = "example-resources"
+      location = "westeurope"
+    }
+
+    module "log_analytics" {
+      source  = "equinor/log-analytics/azurerm"
+      version = "~> 2.0"
+
+      workspace_name      = "example-workspace"
+      resource_group_name = azurerm_resource_group.example.name
+      location            = azurerm_resource_group.example.location
+    }
+    ```
+
+1. Install required provider plugins and modules:
+
+    ```console
+    terraform init
+    ```
+
+1. Apply the Terraform configuration:
+
+    ```console
+    terraform apply
+    ```
 
 ## Development
 
