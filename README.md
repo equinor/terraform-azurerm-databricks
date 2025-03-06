@@ -11,6 +11,11 @@ Terraform module which creates Azure Databricks resources.
 
 - Audit logs sent to given Log Analytics workspace by default (premium SKU only).
 
+## Prerequisites
+
+- Azure role `Contributor` resource group scope.
+- Azure role `Log Analytics Contributor` at the Log Analytics workspace scope.
+
 ## Development
 
 1. Read [this document](https://code.visualstudio.com/docs/devcontainers/containers).
