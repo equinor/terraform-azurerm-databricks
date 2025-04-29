@@ -30,7 +30,7 @@ module "databricks" {
   source  = "equinor/databricks/azurerm"
   version = "~> 3.3"
 
-  workspace_name      = "example-dbw"
+  workspace_name      = "example-databricks"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
 }
@@ -52,7 +52,7 @@ module "databricks" {
   source  = "equinor/databricks/azurerm"
   version = "~> 3.3"
 
-  workspace_name             = "example-dbw"
+  workspace_name             = "example-databricks"
   resource_group_name        = azurerm_resource_group.example.name
   location                   = azurerm_resource_group.example.location
   sku                        = "premium"
