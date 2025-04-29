@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.3.0...v3.3.1) (2025-04-29)
+
+
+### Documentation
+
+* update README ([88008e9](https://github.com/equinor/terraform-azurerm-databricks/commit/88008e9f8a9426bc7e2adfea415196d917e1244d))
+
 ## [3.3.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.2.2...v3.3.0) (2025-03-06)
 
 
