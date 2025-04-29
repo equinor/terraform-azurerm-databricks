@@ -14,50 +14,65 @@ Terraform module which creates Azure Databricks resources.
 
 ## Prerequisites
 
-- Azure role `Contributor` resource group scope.
-- Azure role `Log Analytics Contributor` at the Log Analytics workspace scope.
+- Azure role `Contributor` at the resource group scope.
+- *(Premium tier only)* Azure role `Log Analytics Contributor` at the Log Analytics workspace scope.
 
 ## Usage
 
-1. Login to Azure:
+### Standard tier
 
-    ```console
-    az login
-    ```
+```terraform
+provider "azurerm" {
+  features {}
+}
 
-1. Create a Terraform configuration file `main.tf` and add the following example configuration:
+module "databricks" {
+  source  = "equinor/databricks/azurerm"
+  version = "~> 3.3"
 
-    ```terraform
-    provider "azurerm" {
-      features {}
-    }
+  workspace_name      = "example-dbw"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
+}
 
-    module "databricks" {
-      source  = "equinor/databricks/azurerm"
-      version = "~> 3.3"
+resource "azurerm_resource_group" "example" {
+  name     = "example-resources"
+  location = "westeurope"
+}
+```
 
-      workspace_name      = "example-dbw"
-      resource_group_name = azurerm_resource_group.example.name
-      location            = azurerm_resource_group.example.location
-    }
+### Premium tier
 
-    resource "azurerm_resource_group" "example" {
-      name     = "example-resources"
-      location = "westeurope"
-    }
-    ```
+```terraform
+provider "azurerm" {
+  features {}
+}
 
-1. Install required provider plugins and modules:
+module "databricks" {
+  source  = "equinor/databricks/azurerm"
+  version = "~> 3.3"
 
-    ```console
-    terraform init
-    ```
+  workspace_name             = "example-dbw"
+  resource_group_name        = azurerm_resource_group.example.name
+  location                   = azurerm_resource_group.example.location
+  sku                        = "premium"
+  log_analytics_workspace_id = module.log_analytics.workspace_id
+}
 
-1. Apply the Terraform configuration:
+resource "azurerm_resource_group" "example" {
+  name     = "example-resources"
+  location = "westeurope"
+}
 
-    ```console
-    terraform apply
-    ```
+module "log_analytics" {
+  source  = "equinor/log-analytics/azurerm"
+  version = "~> 2.3"
+
+  workspace_name      = "example-workspace"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
+}
+```
 
 ## Contributing
 
