@@ -29,7 +29,6 @@ module "databricks" {
   workspace_name             = "dbw-${random_id.this.hex}"
   resource_group_name        = var.resource_group_name
   location                   = var.location
-  sku                        = "premium"
   log_analytics_workspace_id = module.log_analytics.workspace_id
 
   tags = local.tags
