@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.3.1...v4.0.0) (2025-10-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* variable `sku` no longer allows value `"standard"`.
+
+### Features
+
+* create Premium tier workspace by default ([#44](https://github.com/equinor/terraform-azurerm-databricks/issues/44)) ([28a9bff](https://github.com/equinor/terraform-azurerm-databricks/commit/28a9bff10c95b8555f2e187466ed4b69efc27555))
+
 ## [3.3.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.3.0...v3.3.1) (2025-04-29)
 
 
