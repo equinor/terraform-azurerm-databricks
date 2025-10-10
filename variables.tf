@@ -17,20 +17,19 @@ variable "location" {
 }
 
 variable "sku" {
-  description = "The SKU of this Databricks workspace. Value must be \"standard\", \"premium\" or \"trial\"."
+  description = "The SKU of this Databricks workspace. Value must be \"premium\" or \"trial\" (14 days of free access to premium DBUs)."
   type        = string
-  default     = "standard"
+  default     = "premium"
 
   validation {
-    condition     = contains(["standard", "premium"], var.sku)
-    error_message = "SKU must be \"standard\" or \"premium\"."
+    condition     = contains(["premium", "trial"], var.sku)
+    error_message = "SKU must be \"premium\" or \"trial\"."
   }
 }
 
 variable "log_analytics_workspace_id" {
-  description = "The ID of a Log Analytics workspace to send diagnostics to. Required if value of sku is \"premium\"."
+  description = "The ID of the Log Analytics workspace to send diagnostics to."
   type        = string
-  default     = null
 }
 
 variable "default_storage_firewall_enabled" {
@@ -46,13 +45,13 @@ variable "access_connector_id" {
 }
 
 variable "customer_managed_key_enabled" {
-  description = "Should customer-managed key for encryption be enabled for this Databricks workspace? Only valid if value of sku is \"premium\"."
+  description = "Should customer-managed key for encryption be enabled for this Databricks workspace?"
   type        = bool
   default     = false
 }
 
 variable "infrastructure_encryption_enabled" {
-  description = "Should a secondary layer of encryption be enabled for the root file system? Only valid if value of sku is \"premium\"."
+  description = "Should a secondary layer of encryption be enabled for the root file system?"
   type        = bool
   default     = false
 }

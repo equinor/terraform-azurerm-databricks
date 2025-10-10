@@ -11,39 +11,15 @@ Terraform module which creates Azure Databricks resources.
 
 ## Features
 
-- Standard tier Databricks workspace created by default.
-- *(Premium tier only)* Audit logs sent to given Log Analytics workspace by default.
+- Premium tier Databricks workspace created by default (trial tier available, which gives 14 days of free access to premium DBUs).
+- Audit logs sent to given Log Analytics workspace by default.
 
 ## Prerequisites
 
 - Azure role `Contributor` at the resource group scope.
-- *(Premium tier only)* Azure role `Log Analytics Contributor` at the Log Analytics workspace scope.
+- Azure role `Log Analytics Contributor` at the Log Analytics workspace scope.
 
 ## Usage
-
-### Standard tier
-
-```terraform
-provider "azurerm" {
-  features {}
-}
-
-module "databricks" {
-  source  = "equinor/databricks/azurerm"
-  version = "~> 3.3"
-
-  workspace_name      = "example-databricks"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
-}
-
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "westeurope"
-}
-```
-
-### Premium tier
 
 ```terraform
 provider "azurerm" {
@@ -57,7 +33,6 @@ module "databricks" {
   workspace_name             = "example-databricks"
   resource_group_name        = azurerm_resource_group.example.name
   location                   = azurerm_resource_group.example.location
-  sku                        = "premium"
   log_analytics_workspace_id = module.log_analytics.workspace_id
 }
 
