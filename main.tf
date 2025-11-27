@@ -51,3 +51,8 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
     }
   }
 }
+
+data "azurerm_user_assigned_identity" "dbmanagedidentity" {
+  name                = "dbmanagedidentity"
+  resource_group_name = azurerm_databricks_workspace.this.managed_resource_group_name
+}
