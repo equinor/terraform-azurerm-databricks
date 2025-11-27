@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.0.0...v4.1.0) (2025-11-27)
+
+
+### Features
+
+* add output `managed_identity_principal_id` ([#46](https://github.com/equinor/terraform-azurerm-databricks/issues/46)) ([7796098](https://github.com/equinor/terraform-azurerm-databricks/commit/77960988d7ff4e6c22591c870b624a05798dc690))
+
 ## [4.0.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v3.3.1...v4.0.0) (2025-10-10)
 
 
