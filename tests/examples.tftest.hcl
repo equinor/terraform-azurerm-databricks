@@ -2,7 +2,7 @@ mock_provider "azurerm" {
   source = "./tests/azurerm"
 }
 
-run "test_premium_databricks_example" {
+run "premium_databricks_example" {
   module {
     source = "./examples/premium-databricks"
   }
