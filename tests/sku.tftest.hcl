@@ -2,7 +2,7 @@ mock_provider "azurerm" {
   source = "./tests/azurerm"
 }
 
-run "setup" {
+run "setup_tests" {
   module {
     source = "./tests/setup"
   }
@@ -10,9 +10,9 @@ run "setup" {
 
 variables {
   workspace_name             = "example-databricks"
-  resource_group_name        = run.setup.resource_group_name
-  location                   = run.setup.location
-  log_analytics_workspace_id = run.setup.log_analytics_workspace_id
+  resource_group_name        = run.setup_tests.resource_group_name
+  location                   = run.setup_tests.location
+  log_analytics_workspace_id = run.setup_tests.log_analytics_workspace_id
 }
 
 run "premium_sku" {
