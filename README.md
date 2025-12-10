@@ -44,6 +44,22 @@ module "log_analytics" {
 }
 ```
 
+## Testing
+
+1. Initialize working directory:
+
+    ```console
+    terraform init
+    ```
+
+1. Execute tests:
+
+    ```console
+    terraform test
+    ```
+
+    See [`terraform test` command documentation](https://developer.hashicorp.com/terraform/cli/commands/test) for options.
+
 ## Contributing
 
 See [Contributing guidelines](https://github.com/equinor/terraform-baseline/blob/main/CONTRIBUTING.md).
