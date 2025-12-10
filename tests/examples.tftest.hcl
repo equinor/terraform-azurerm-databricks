@@ -13,7 +13,7 @@ variables {
   location            = run.setup_tests.location
 }
 
-run "premium_databricks_example" {
+run "test_premium_databricks_example" {
   module {
     source = "./examples/premium-databricks"
   }

@@ -15,7 +15,7 @@ variables {
   log_analytics_workspace_id = run.setup_tests.log_analytics_workspace_id
 }
 
-run "premium_sku" {
+run "test_premium_sku" {
   variables {
     sku = "premium"
   }
@@ -26,7 +26,7 @@ run "premium_sku" {
   }
 }
 
-run "trial_sku" {
+run "test_trial_sku" {
   variables {
     sku = "trial"
   }
