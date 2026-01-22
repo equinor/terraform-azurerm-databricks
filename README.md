@@ -21,7 +21,7 @@ provider "azurerm" {
 
 module "databricks" {
   source  = "equinor/databricks/azurerm"
-  version = "~> 4.0"
+  version = "~> 4.1"
 
   workspace_name             = "example-databricks"
   resource_group_name        = azurerm_resource_group.example.name
@@ -43,6 +43,38 @@ module "log_analytics" {
   location            = azurerm_resource_group.example.location
 }
 ```
+
+The user or service principal that creates the Databricks workspace will be automatically assigned the workspace admin role.
+
+### Manage identities
+
+If [Entra ID automatic identity management](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/automatic-identity-management) is enabled for your Databricks account (enabled by default after August 1, 2025), users, groups and service principals in your Entra ID tenant will be automatically synced to your Databricks account.
+
+Use the [Databricks provider](https://registry.terraform.io/providers/databricks/databricks/latest) to assign account-level users, groups or service principals to your Databricks workspace:
+
+```terraform
+provider "databricks" {
+  host = module.databricks.workspace_url
+}
+
+resource "databricks_permission_assignment" "admins" {
+  group_name  = "Databricks Admins" # Entra ID group display name
+  permissions = ["ADMIN"]
+}
+
+resource "databricks_permission_assignment" "users" {
+  group_name  = "Databricks Users" # Entra ID group display name
+  permissions = ["USER"]
+}
+
+resource "databricks_entitlements" "users" {
+  group_id              = databricks_permission_assignment.users.principal_id
+  workspace_access      = true
+  databricks_sql_access = true
+}
+```
+
+Users, groups and service principals that are synced from Entra ID are shown as **External**.
 
 ## Testing
 
