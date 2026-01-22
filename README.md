@@ -76,6 +76,22 @@ resource "databricks_entitlements" "users" {
 
 Users, groups and service principals that are synced from Entra ID are shown as **External**.
 
+## Testing
+
+1. Initialize working directory:
+
+    ```console
+    terraform init
+    ```
+
+1. Execute tests:
+
+    ```console
+    terraform test
+    ```
+
+    See [`terraform test` command documentation](https://developer.hashicorp.com/terraform/cli/commands/test) for options.
+
 ## Contributing
 
 See [Contributing guidelines](https://github.com/equinor/terraform-baseline/blob/main/CONTRIBUTING.md).
