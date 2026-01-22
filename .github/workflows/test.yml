@@ -1,0 +1,9 @@
+name: Test
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    name: Unit Tests
+    uses: equinor/terraform-baseline/.github/workflows/terraform-test.yml@main
