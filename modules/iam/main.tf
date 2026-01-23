@@ -27,7 +27,7 @@ resource "databricks_permission_assignment" "external_group" {
   for_each = data.http.databricks_external_group
 
   principal_id = jsondecode(each.value.response_body).group.internal_id
-  permissions = ["USER"]
+  permissions  = var.external_groups[each.key].permissions
 }
 
 # Retrieve information about the corresponding workspace-level group.
