@@ -10,8 +10,8 @@ data "databricks_current_config" "this" {}
 data "http" "databricks_external_group" {
   for_each = var.external_groups
 
-  url    = "https://${data.databricks_current_config.this.host}/api/2.0/identity/groups/resolveByExternalId"
   method = "POST"
+  url    = "https://${data.databricks_current_config.this.host}/api/2.0/identity/groups/resolveByExternalId"
   request_headers = {
     "Authorization" = "Bearer ${databricks_token.pat.token_value}"
     "Content-Type"  = "application/json"
