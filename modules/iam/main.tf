@@ -2,13 +2,15 @@ resource "databricks_token" "pat" {
   comment = "Provision identity and access management (IAM) resources" # TODO: improve comment
 }
 
+data "databricks_current_config" "this" {}
+
 # Use the IAM V2 (Beta) API to resolve the account-level group with the given object ID from Entra ID.
 # If the group does not exist in the Databricks account, it will be created.
 # Ref: https://docs.databricks.com/api/azure/workspace/iamv2/resolvegroupproxy
 data "http" "databricks_external_group" {
   for_each = var.external_groups
 
-  url    = "https://${module.databricks.workspace_url}/api/2.0/identity/groups/resolveByExternalId"
+  url    = "https://${data.databricks_current_config.this.host}/api/2.0/identity/groups/resolveByExternalId"
   method = "POST"
   request_headers = {
     "Authorization" = "Bearer ${databricks_token.pat.token_value}"
