@@ -50,8 +50,6 @@ The user or service principal that creates the Databricks workspace will be auto
 
 If [Entra ID automatic identity management](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/automatic-identity-management) is enabled for your Databricks account (enabled by default after August 1, 2025), users, groups and service principals in your Entra ID tenant will be automatically synced to your Databricks account.
 
-Users are automatically added at the account-level on first login (ref: [Automatically provision users](https://learn.microsoft.com/en-us/azure/databricks/security/auth/jit)). Groups should be added at the account-level by an account admin (ref: [Manage groups](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/manage-groups)).
-
 Use a [workspace-level Databricks provider](https://registry.terraform.io/providers/databricks/databricks/latest/docs) to assign account-level users, groups or service principals to your Databricks workspace:
 
 ```terraform
@@ -59,18 +57,38 @@ provider "databricks" {
   host = module.databricks.workspace_url
 }
 
-resource "databricks_permission_assignment" "admins" {
-  group_name  = "Databricks Admins" # Entra ID group display name
-  permissions = ["ADMIN"]
+resource "databricks_token" "pat" {}
+
+# Use IAM V2 (Beta) API to resolve the account-level group with the given object ID from Entra ID.
+# If the group does not exist in the Databricks account, it will be created.
+# Ref: https://docs.databricks.com/api/azure/workspace/iamv2/resolvegroupproxy
+data "http" "databricks_external_group" {
+  url    = "https://${module.databricks.workspace_url}/api/2.0/identity/groups/resolveByExternalId"
+  method = "POST"
+  request_headers = {
+    "Authorization" = "Bearer ${databricks_token.pat.token_value}"
+    "Content-Type"  = "application/json"
+  }
+  request_body = jsonencode({
+    "external_id" = "85e19454-004b-4d13-bb08-21978c58a927" # Entra ID object ID
+  })
 }
 
-resource "databricks_permission_assignment" "users" {
-  group_name  = "Databricks Users" # Entra ID group display name
+# Assign the account-level group to the Databricks workspace.
+# This will create a corresponding workspace-level group.
+resource "databricks_permission_assignment" "external_group" {
+  principal_id = jsondecode(data.http.databricks_external_group.response_body).group.internal_id
   permissions = ["USER"]
 }
 
-resource "databricks_entitlements" "users" {
-  group_id              = databricks_permission_assignment.users.principal_id
+# Retrieve information about the corresponding workspace-level group.
+data "databricks_group" "external_group" {
+  display_name = databricks_permission_assignment.external_group.display_name
+}
+
+# Set workspace and SQL access entitlements to the workspace-level group.
+resource "databricks_entitlements" "external_group" {
+  group_id              = data.databricks_group.external_group.id
   workspace_access      = true
   databricks_sql_access = true
 }
@@ -78,12 +96,7 @@ resource "databricks_entitlements" "users" {
 
 Users, groups and service principals that are synced from Entra ID are shown as **External** in the workspace UI.
 
-Alternative approaches:
-
-- Use the [`databricks_group` resource](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/group) with an account-level provider to add an Entra ID group to your account. Requires the account admin role.
-- Use the `databricks_group` resource with a workspace-level provider to create a [legacy workspace-local group](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/workspace-local-groups). The group will show in the workspace UI, but it won't work.
-
-It's worth noting that a workspace admin can add an Entra ID group through the workspace setting, and that group will be synced to the account. This sync from the workspace to the account will not happen if the group is created through the API using a tool like the Terraform provider. The sync can take up to 40 minutes.
+The [`databricks_group` resource](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/group) uses the old SCIM API.
 
 ## Testing
 
