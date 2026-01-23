@@ -70,7 +70,7 @@ data "http" "databricks_external_group" {
     "Content-Type"  = "application/json"
   }
   request_body = jsonencode({
-    "external_id" = "85e19454-004b-4d13-bb08-21978c58a927" # Entra ID object ID
+    "external_id" = "85e19454-004b-4d13-bb08-21978c58a927" # Object ID from Entra ID
   })
 }
 
