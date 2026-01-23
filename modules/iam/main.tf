@@ -44,4 +44,6 @@ resource "databricks_entitlements" "external_group" {
   group_id              = each.value.id
   workspace_access      = var.external_groups[each.key].workspace_access
   databricks_sql_access = var.external_groups[each.key].databricks_sql_access
+  workspace_consume     = var.external_groups[each.key].consumer_access
+  allow_cluster_create  = var.external_groups[each.key].allow_cluster_create
 }
