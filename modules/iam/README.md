@@ -15,13 +15,12 @@ module "databricks_iam" {
   
   external_groups = {
     "users" = {
-      external_id           = "85e19454-004b-4d13-bb08-21978c58a927" # Object ID from Entra ID
-      workspace_access      = true
-      databricks_sql_access = true
+      external_id = "85e19454-004b-4d13-bb08-21978c58a927" # Object ID from Entra ID
     }
 
     "admins" = {
-      external_id = "4ddc3f27-c0b1-491e-bdba-ce0f83c65a37" # Object ID from Entra ID
+      external_id  = "4ddc3f27-c0b1-491e-bdba-ce0f83c65a37" # Object ID from Entra ID
+      admin_access = true
     }
   }
 }
