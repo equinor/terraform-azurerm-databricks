@@ -96,7 +96,7 @@ resource "databricks_entitlements" "external_group" {
 
 Users, groups and service principals that are synced from Entra ID are shown as **External** in the workspace UI.
 
-The [`databricks_group` resource](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/group) uses the old SCIM API.
+The [`databricks_group` resource](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/group) uses the old [SCIM API](https://docs.databricks.com/api/azure/workspace/groups/create) to create groups, which will not work with automatic identity management.
 
 ## Testing
 
