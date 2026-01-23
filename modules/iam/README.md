@@ -4,7 +4,7 @@
 
 ```terraform
 module "databricks_iam" {
-  source  = "equinor/databricks/azurerm//modules/iam
+  source  = "equinor/databricks/azurerm//modules/iam"
   version = "~> 4.2"
   
   workspace_url = data.azurerm_databricks_workspace.example.workspace_id
