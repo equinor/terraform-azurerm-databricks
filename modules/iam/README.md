@@ -1,5 +1,7 @@
 # Terraform module for Azure Databricks IAM
 
+Terraform module which creates Azure Databricks Identity and Access Management (IAM) resources.
+
 If [Entra ID automatic identity management](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/automatic-identity-management) is enabled for your Azure Databricks account (enabled by default after August 1, 2025), users, groups and service principals in your Entra ID tenant will be automatically synced to your account.
 
 Use this Terraform module to assign these account-level users, groups and service principals to an Azure Databricks workspace.
