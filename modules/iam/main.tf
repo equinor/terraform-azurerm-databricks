@@ -19,6 +19,10 @@ data "http" "databricks_external_group" {
   request_body = jsonencode({
     "external_id" = each.value.external_id
   })
+
+  retry {
+    attempts = 5
+  }
 }
 
 # Assign the account-level group to the Databricks workspace.
