@@ -5,7 +5,6 @@ variable "external_groups" {
     admin_access          = optional(bool, false)
     workspace_access      = optional(bool, true)
     databricks_sql_access = optional(bool, true)
-    consumer_access       = optional(bool, false)
     allow_cluster_create  = optional(bool, false)
   }))
   nullable = false
