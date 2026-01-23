@@ -4,8 +4,8 @@ resource "databricks_token" "pat" {
 
 data "databricks_current_config" "this" {}
 
-# Use the IAM V2 (Beta) API to resolve the account-level group with the given object ID from Entra ID.
-# If the group does not exist in the Databricks account, it will be created.
+# Use the IAM V2 (Beta) API to resolve the account-level groups with the given object IDs from Entra ID.
+# If a group does not exist in the Databricks account, it will be created.
 # Ref: https://docs.databricks.com/api/azure/workspace/iamv2/resolvegroupproxy
 data "http" "databricks_external_group" {
   for_each = var.external_groups
@@ -25,8 +25,8 @@ data "http" "databricks_external_group" {
   }
 }
 
-# Assign the account-level group to the Databricks workspace.
-# This will create a corresponding workspace-level group.
+# Assign the account-level groups to the Databricks workspace.
+# This will create corresponding workspace-level groups.
 resource "databricks_permission_assignment" "external_group" {
   for_each = data.http.databricks_external_group
 
@@ -34,14 +34,14 @@ resource "databricks_permission_assignment" "external_group" {
   permissions  = var.external_groups[each.key].admin_access ? ["ADMIN"] : ["USER"]
 }
 
-# Retrieve information about the corresponding workspace-level group.
+# Retrieve information about the corresponding workspace-level groups.
 data "databricks_group" "external_group" {
   for_each = databricks_permission_assignment.external_group
 
   display_name = each.value.display_name
 }
 
-# Set workspace and SQL access entitlements to the workspace-level group.
+# Set entitlements to the workspace-level groups.
 resource "databricks_entitlements" "external_group" {
   for_each = data.databricks_group.external_group
   
