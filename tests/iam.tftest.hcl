@@ -2,6 +2,8 @@ mock_provider "azurerm" {
   source = "./tests/azurerm"
 }
 
+mock_provider "databricks" {}
+
 run "setup_tests" {
   module {
     source = "./tests/setup"
