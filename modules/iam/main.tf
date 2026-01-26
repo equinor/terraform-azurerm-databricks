@@ -27,7 +27,9 @@ data "http" "databricks_external_group" {
   })
 
   retry {
-    attempts = 5
+    attempts     = 5
+    min_delay_ms = 1000 # 1 second
+    max_delay_ms = 5000 # 5 seconds
   }
 }
 
