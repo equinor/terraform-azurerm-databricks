@@ -27,8 +27,8 @@ module "databricks_iam" {
   }
 }
 
-provider "azurerm" {
-  features {}
+provider "databricks" {
+  host = data.azurerm_databricks_workspace.example.workspace_url
 }
 
 data "azurerm_databricks_workspace" "example" {
@@ -36,8 +36,8 @@ data "azurerm_databricks_workspace" "example" {
   resource_group_name = "example-resources"
 }
 
-provider "databricks" {
-  host = module.databricks.workspace_url
+provider "azurerm" {
+  features {}
 }
 ```
 
