@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.1.0...v4.1.1) (2026-01-23)
+
+
+### Documentation
+
+* manage identities ([#50](https://github.com/equinor/terraform-azurerm-databricks/issues/50)) ([bfcefe2](https://github.com/equinor/terraform-azurerm-databricks/commit/bfcefe2e14dd2efb4efcca420b6f2248180df6a7))
+
 ## [4.1.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.0.0...v4.1.0) (2025-11-27)
 
 
