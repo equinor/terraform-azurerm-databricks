@@ -14,5 +14,11 @@ terraform {
       # HTTP provider version 3.1.0 required to use the "method", "request_headers" and "request_body" arguments
       version = ">= 3.1.0"
     }
+
+    time = {
+      source = "hashicorp/time"
+      # Time provider version 0.2.0 required to use the "time_rotating" resource
+      version = ">= 0.2.0"
+    }
   }
 }

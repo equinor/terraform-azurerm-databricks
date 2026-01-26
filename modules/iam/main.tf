@@ -1,5 +1,11 @@
-resource "databricks_token" "pat" {
-  comment = "Provision identity and access management (IAM) resources" # TODO: improve comment
+resource "time_rotating" "this" {
+  rotation_days = 30
+}
+
+resource "databricks_token" "this" {
+  comment = "Provision identity and access management (IAM) resources using Terraform"
+  
+  lifetime_seconds = (time_rotating.this.rotation_days * 3) * 60 * 60 * 24
 }
 
 data "databricks_current_config" "this" {}
@@ -13,7 +19,7 @@ data "http" "databricks_external_group" {
   method = "POST"
   url    = "https://${data.databricks_current_config.this.host}/api/2.0/identity/groups/resolveByExternalId"
   request_headers = {
-    "Authorization" = "Bearer ${databricks_token.pat.token_value}"
+    "Authorization" = "Bearer ${databricks_token.this.token_value}"
     "Content-Type"  = "application/json"
   }
   request_body = jsonencode({
