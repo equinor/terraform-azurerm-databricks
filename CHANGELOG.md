@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.1.1...v4.2.0) (2026-01-28)
+
+
+### Features
+
+* **iam:** assign Entra ID groups to workspace ([#53](https://github.com/equinor/terraform-azurerm-databricks/issues/53)) ([a227100](https://github.com/equinor/terraform-azurerm-databricks/commit/a227100463ea2ce2090d550f301a65a0544e763a))
+
 ## [4.1.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.1.0...v4.1.1) (2026-01-23)
 
 
