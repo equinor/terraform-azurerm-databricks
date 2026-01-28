@@ -5,7 +5,7 @@ resource "time_rotating" "this" {
 resource "databricks_token" "this" {
   comment = "Provision identity and access management (IAM) resources using Terraform"
   
-  lifetime_seconds = (time_rotating.this.rotation_days * 3) * 60 * 60 * 24
+  lifetime_seconds = (time_rotating.this.rotation_days * 3) * 60 * 60 * 24 # 90 days
 }
 
 data "databricks_current_config" "this" {}
