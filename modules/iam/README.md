@@ -10,7 +10,7 @@ Use this Terraform module to assign Entra ID users, groups and service principal
 
 ## Prerequisites
 
-- [Automatic enablement of Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/get-started#enablement)
+- [Automatic enablement of Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/get-started#enablement) (enabled by default after November 9, 2023)
 
 ## Usage
 
