@@ -8,6 +8,10 @@ If [automatic identity management](https://learn.microsoft.com/en-us/azure/datab
 
 Use this Terraform module to assign Entra ID users, groups and service principals to your Azure Databricks workspace.
 
+## Prerequisites
+
+- [Automatic enablement of Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/get-started#enablement)
+
 ## Usage
 
 Use a [workspace-level Databricks provider](https://registry.terraform.io/providers/databricks/databricks/latest/docs) to assign Entra ID users, groups and service principals to your workspace:
