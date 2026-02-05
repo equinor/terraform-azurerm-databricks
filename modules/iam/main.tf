@@ -4,9 +4,9 @@ resource "time_rotating" "this" {
 
 resource "databricks_token" "this" {
   comment = "Provision identity and access management (IAM) resources using Terraform"
-  
+
   lifetime_seconds = time_rotating.this.rotation_days * 86400 # There are 86 400 seconds per day
-  
+
   lifecycle {
     replace_triggered_by = [
       # Replace when rotation period has passed and token has expired
@@ -15,8 +15,6 @@ resource "databricks_token" "this" {
   }
 }
 
-data "databricks_current_config" "this" {}
-
 # Use the IAM V2 (Beta) API to resolve the account-level groups with the given object IDs from Entra ID.
 # If a group does not exist in the Databricks account, it will be created.
 # Ref: https://docs.databricks.com/api/azure/workspace/iamv2/resolvegroupproxy
@@ -24,7 +22,7 @@ data "http" "external_group" {
   for_each = var.external_groups
 
   method = "POST"
-  url    = "https://${data.databricks_current_config.this.host}/api/2.0/identity/groups/resolveByExternalId"
+  url    = "https://${var.workspace_url}/api/2.0/identity/groups/resolveByExternalId"
   request_headers = {
     "Authorization" = "Bearer ${databricks_token.this.token_value}"
     "Content-Type"  = "application/json"
@@ -59,7 +57,7 @@ data "databricks_group" "external_group" {
 # Set entitlements to the workspace-level groups.
 resource "databricks_entitlements" "external_group" {
   for_each = data.databricks_group.external_group
-  
+
   group_id              = each.value.id
   workspace_access      = var.external_groups[each.key].workspace_access
   databricks_sql_access = var.external_groups[each.key].databricks_sql_access
