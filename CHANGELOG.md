@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.2.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.2.0...v4.2.1) (2026-02-05)
+
+
+### Bug Fixes
+
+* **iam:** permission assignment APIs are not available on initial apply ([#56](https://github.com/equinor/terraform-azurerm-databricks/issues/56)) ([b9da028](https://github.com/equinor/terraform-azurerm-databricks/commit/b9da028e265d9999121fe828e97931d3531a5163))
+* **iam:** workspace URL is null on initial apply ([#55](https://github.com/equinor/terraform-azurerm-databricks/issues/55)) ([79b1767](https://github.com/equinor/terraform-azurerm-databricks/commit/79b176702bb1809b9eb5b8dc6e01a093803748be))
+
 ## [4.2.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.1.1...v4.2.0) (2026-01-28)
 
 
