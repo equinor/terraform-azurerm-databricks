@@ -4,9 +4,9 @@ resource "time_rotating" "this" {
 
 resource "databricks_token" "this" {
   comment = "Provision identity and access management (IAM) resources using Terraform"
-  
+
   lifetime_seconds = time_rotating.this.rotation_days * 86400 # There are 86 400 seconds per day
-  
+
   lifecycle {
     replace_triggered_by = [
       # Replace when rotation period has passed and token has expired
@@ -40,6 +40,16 @@ data "http" "external_group" {
   }
 }
 
+resource "time_sleep" "metastore_assignment" {
+  # Wait for a metastore to be automatically assigned to the Databricks workspace.
+  create_duration = "15m"
+
+  triggers = {
+    # If the Databricks workspace URL changes, assume that it's a new workspace and wait for a metastore to be automatically assigned to it.
+    workspace_url = var.workspace_url
+  }
+}
+
 # Assign the account-level groups to the Databricks workspace.
 # This will create corresponding workspace-level groups.
 resource "databricks_permission_assignment" "external_group" {
@@ -47,6 +57,11 @@ resource "databricks_permission_assignment" "external_group" {
 
   principal_id = jsondecode(each.value.response_body).group.internal_id
   permissions  = var.external_groups[each.key].admin_access ? ["ADMIN"] : ["USER"]
+
+  depends_on = [
+    # A metastore must be assigned to the Databricks workspace before permissions can be assigned to groups.
+    time_sleep.metastore_assignment
+  ]
 }
 
 # Retrieve information about the corresponding workspace-level groups.
@@ -59,7 +74,7 @@ data "databricks_group" "external_group" {
 # Set entitlements to the workspace-level groups.
 resource "databricks_entitlements" "external_group" {
   for_each = data.databricks_group.external_group
-  
+
   group_id              = each.value.id
   workspace_access      = var.external_groups[each.key].workspace_access
   databricks_sql_access = var.external_groups[each.key].databricks_sql_access

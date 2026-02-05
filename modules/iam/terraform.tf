@@ -4,21 +4,21 @@ terraform {
 
   required_providers {
     databricks = {
-      source  = "databricks/databricks"
+      source = "databricks/databricks"
       # Databricks provider version 1.31.0 required to use the "databricks_current_config" data source
       version = ">= 1.31.0"
     }
 
     http = {
-      source  = "hashicorp/http"
+      source = "hashicorp/http"
       # HTTP provider version 3.1.0 required to use the "method", "request_headers" and "request_body" arguments
       version = ">= 3.1.0"
     }
 
     time = {
       source = "hashicorp/time"
-      # Time provider version 0.2.0 required to use the "time_rotating" resource
-      version = ">= 0.2.0"
+      # Time provider version 0.5.0 required to use the "time_sleep" resource
+      version = ">= 0.5.0"
     }
   }
 }
