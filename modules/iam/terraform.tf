@@ -17,8 +17,8 @@ terraform {
 
     time = {
       source = "hashicorp/time"
-      # Time provider version 0.5.0 required to use the "time_sleep" resource
-      version = ">= 0.5.0"
+      # Time provider version 0.2.0 required to use the "time_rotating" resource
+      version = ">= 0.2.0"
     }
   }
 }
