@@ -38,16 +38,6 @@ data "http" "external_group" {
   }
 }
 
-resource "time_sleep" "metastore_assignment" {
-  # Wait for a metastore to be automatically assigned to the Databricks workspace.
-  create_duration = "15m"
-
-  triggers = {
-    # If the Databricks workspace URL changes, assume that it's a new workspace and wait for a metastore to be automatically assigned to it.
-    workspace_url = var.workspace_url
-  }
-}
-
 # Assign the account-level groups to the Databricks workspace.
 # This will create corresponding workspace-level groups.
 resource "databricks_permission_assignment" "external_group" {
@@ -55,11 +45,6 @@ resource "databricks_permission_assignment" "external_group" {
 
   principal_id = jsondecode(each.value.response_body).group.internal_id
   permissions  = var.external_groups[each.key].admin_access ? ["ADMIN"] : ["USER"]
-
-  depends_on = [
-    # A metastore must be assigned to the Databricks workspace before permissions can be assigned to groups.
-    time_sleep.metastore_assignment
-  ]
 }
 
 # Retrieve information about the corresponding workspace-level groups.

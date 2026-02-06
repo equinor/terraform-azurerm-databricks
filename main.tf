@@ -56,3 +56,13 @@ data "azurerm_user_assigned_identity" "dbmanagedidentity" {
   name                = "dbmanagedidentity"
   resource_group_name = azurerm_databricks_workspace.this.managed_resource_group_name
 }
+
+resource "time_sleep" "metastore_assignment" {
+  # Wait for a metastore to be automatically assigned to the workspace.
+  create_duration = "15m"
+
+  triggers = {
+    # If the workspace URL changes, assume that it's a new workspace and wait for a metastore to be automatically assigned to it.
+    workspace_url = azurerm_databricks_workspace.this.workspace_url
+  }
+}
