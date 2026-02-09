@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.2](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.2.1...v4.2.2) (2026-02-09)
+
+
+### Code Refactoring
+
+* **iam:** rename `time_rotating.this` to `time_rotating.token_expiration` ([#59](https://github.com/equinor/terraform-azurerm-databricks/issues/59)) ([e82b44a](https://github.com/equinor/terraform-azurerm-databricks/commit/e82b44aeb710c6d881606b725472a89be69e232b))
+
 ## [4.2.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.2.0...v4.2.1) (2026-02-05)
 
 
