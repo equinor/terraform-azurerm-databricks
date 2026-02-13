@@ -15,6 +15,16 @@ resource "databricks_token" "this" {
   }
 }
 
+resource "time_sleep" "metastore_assignment" {
+  # Wait for a metastore to be automatically assigned to the Databricks workspace.
+  create_duration = "15m"
+
+  triggers = {
+    # If the Databricks workspace URL changes, assume that it's a new workspace and wait for a metastore to be automatically assigned to it.
+    workspace_url = var.workspace_url
+  }
+}
+
 # Use the IAM V2 (Beta) API to resolve the account-level groups with the given object IDs from Entra ID.
 # If a group does not exist in the Databricks account, it will be created.
 # Ref: https://docs.databricks.com/api/azure/workspace/iamv2/resolvegroupproxy
@@ -35,16 +45,6 @@ data "http" "external_group" {
     attempts     = 5
     min_delay_ms = 1000 # 1 second
     max_delay_ms = 5000 # 5 seconds
-  }
-}
-
-resource "time_sleep" "metastore_assignment" {
-  # Wait for a metastore to be automatically assigned to the Databricks workspace.
-  create_duration = "15m"
-
-  triggers = {
-    # If the Databricks workspace URL changes, assume that it's a new workspace and wait for a metastore to be automatically assigned to it.
-    workspace_url = var.workspace_url
   }
 }
 
