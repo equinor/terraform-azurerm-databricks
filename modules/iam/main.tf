@@ -1,18 +1,18 @@
 data "databricks_current_user" "this" {}
 
-resource "time_rotating" "this" {
+resource "time_rotating" "token_expiration" {
   rotation_days = 30
 }
 
 resource "databricks_token" "this" {
   comment = "Provision identity and access management (IAM) resources using Terraform"
 
-  lifetime_seconds = time_rotating.this.rotation_days * 86400 # There are 86 400 seconds per day
+  lifetime_seconds = time_rotating.token_expiration.rotation_days * 86400 # There are 86 400 seconds per day
 
   lifecycle {
     replace_triggered_by = [
       # Replace when rotation period has passed and token has expired
-      time_rotating.this.rfc3339
+      time_rotating.token_expiration.rfc3339
     ]
   }
 }
