@@ -1,3 +1,5 @@
+data "databricks_current_user" "this" {}
+
 resource "time_rotating" "this" {
   rotation_days = 30
 }
@@ -22,7 +24,7 @@ data "http" "external_group" {
   for_each = var.external_groups
 
   method = "POST"
-  url    = "https://${var.workspace_url}/api/2.0/identity/groups/resolveByExternalId"
+  url    = "https://${data.databricks_current_user.this.workspace_url}/api/2.0/identity/groups/resolveByExternalId"
   request_headers = {
     "Authorization" = "Bearer ${databricks_token.this.token_value}"
     "Content-Type"  = "application/json"
@@ -44,7 +46,7 @@ resource "time_sleep" "metastore_assignment" {
 
   triggers = {
     # If the Databricks workspace URL changes, assume that it's a new workspace and wait for a metastore to be automatically assigned to it.
-    workspace_url = var.workspace_url
+    workspace_url = data.databricks_current_user.this.workspace_url
   }
 }
 
