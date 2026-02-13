@@ -82,6 +82,26 @@ resource "databricks_entitlements" "external_group" {
 # Use the IAM V2 (Beta) API to resolve the account-level service principals with the given object IDs from Entra ID.
 # If a service principal does not exist in the Databricks account, it will be created.
 # Ref: https://docs.databricks.com/api/azure/workspace/iamv2/resolveserviceprincipalproxy
+data "http" "external_service_principal_create" {
+  for_each = var.external_service_principals
+
+  method = "POST"
+  url    = "https://${var.workspace_url}/api/2.0/identity/servicePrincipals/resolveByExternalId"
+  request_headers = {
+    "Authorization" = "Bearer ${databricks_token.this.token_value}"
+    "Content-Type"  = "application/json"
+  }
+  request_body = jsonencode({
+    "external_id" = each.value.external_id
+  })
+
+  retry {
+    attempts     = 5
+    min_delay_ms = 1000 # 1 second
+    max_delay_ms = 5000 # 5 seconds
+  }
+}
+
 data "http" "external_service_principal" {
   for_each = var.external_service_principals
 
@@ -100,6 +120,8 @@ data "http" "external_service_principal" {
     min_delay_ms = 1000 # 1 second
     max_delay_ms = 5000 # 5 seconds
   }
+
+  depends_on = [data.http.external_service_principal_create]
 }
 
 # Assign the account-level service principals to the Databricks workspace.
