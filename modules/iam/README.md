@@ -32,6 +32,12 @@ module "databricks_iam" {
       admin_access = true
     }
   }
+  external_service_principals = {
+    "deploy" = {
+      external_id          = "d642b4b1-5d5a-42d2-9323-ac1677bffada" # Object ID from Entra ID
+      allow_cluster_create = true
+    }
+  }
 }
 
 provider "databricks" {

@@ -78,3 +78,57 @@ resource "databricks_entitlements" "external_group" {
   databricks_sql_access = var.external_groups[each.key].databricks_sql_access
   allow_cluster_create  = var.external_groups[each.key].allow_cluster_create
 }
+
+# Use the IAM V2 (Beta) API to resolve the account-level service principals with the given object IDs from Entra ID.
+# If a service principal does not exist in the Databricks account, it will be created.
+# Ref: https://docs.databricks.com/api/azure/workspace/iamv2/resolveserviceprincipalproxy
+data "http" "external_service_principal" {
+  for_each = var.external_service_principals
+
+  method = "POST"
+  url    = "https://${var.workspace_url}/api/2.0/identity/servicePrincipals/resolveByExternalId"
+  request_headers = {
+    "Authorization" = "Bearer ${databricks_token.this.token_value}"
+    "Content-Type"  = "application/json"
+  }
+  request_body = jsonencode({
+    "external_id" = each.value.external_id
+  })
+
+  retry {
+    attempts     = 5
+    min_delay_ms = 1000 # 1 second
+    max_delay_ms = 5000 # 5 seconds
+  }
+}
+
+# Assign the account-level service principals to the Databricks workspace.
+# This will create corresponding workspace-level service principals.
+resource "databricks_permission_assignment" "external_service_principal" {
+  for_each = data.http.external_service_principal
+
+  principal_id = jsondecode(each.value.response_body).service_principal.internal_id
+  permissions  = var.external_service_principals[each.key].admin_access ? ["ADMIN"] : ["USER"]
+
+  depends_on = [
+    # A metastore must be assigned to the Databricks workspace before permissions can be assigned to service principals.
+    time_sleep.metastore_assignment
+  ]
+}
+
+# Retrieve information about the corresponding workspace-level service principals.
+data "databricks_service_principal" "external_service_principal" {
+  for_each = databricks_permission_assignment.external_service_principal
+
+  display_name = each.value.display_name
+}
+
+# Set entitlements to the workspace-level service principals.
+resource "databricks_entitlements" "external_service_principal" {
+  for_each = data.databricks_service_principal.external_service_principal
+
+  service_principal_id  = each.value.id
+  workspace_access      = var.external_service_principals[each.key].workspace_access
+  databricks_sql_access = var.external_service_principals[each.key].databricks_sql_access
+  allow_cluster_create  = var.external_service_principals[each.key].allow_cluster_create
+}
