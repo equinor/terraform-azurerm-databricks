@@ -107,7 +107,7 @@ data "http" "external_service_principal" {
 resource "databricks_permission_assignment" "external_service_principal" {
   for_each = data.http.external_service_principal
 
-  principal_id = jsondecode(each.value.response_body).service_principal.application_id
+  principal_id = jsondecode(each.value.response_body).service_principal.internal_id
   permissions  = var.external_service_principals[each.key].admin_access ? ["ADMIN"] : ["USER"]
 
   depends_on = [
