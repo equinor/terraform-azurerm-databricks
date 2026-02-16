@@ -25,7 +25,10 @@ readonly EXTERNAL_ID
 
 # If the Entra ID service principal was just created, it can take a few attempts
 # before it can be resolved in Databricks.
-for (( i=0; i<5; i++ )); do
+RETRIES=10
+readonly RETRIES
+
+for (( i=0; i<"$RETRIES"; i++ )); do
   response=$(curl --silent --show-error \
     --request POST "$API_URL" \
     --header "Authorization: Bearer $TOKEN" \
@@ -47,5 +50,5 @@ for (( i=0; i<5; i++ )); do
   sleep "10s"
 done
 
-echo "Unhandled error after 5 retries: $response" >&2
+echo "Unhandled error after $RETRIES retries: $response" >&2
 exit 1
