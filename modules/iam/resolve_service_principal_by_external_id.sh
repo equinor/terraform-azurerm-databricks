@@ -22,12 +22,12 @@ readonly TOKEN
 EXTERNAL_ID="$3"
 readonly EXTERNAL_ID
 
-# TODO: add retries?
 response=$(curl --silent --show-error \
   --request POST "$API_URL" \
   --header "Authorization: Bearer $TOKEN" \
   --header "Content-Type: application/json" \
-  --data "{\"external_id\": \"$EXTERNAL_ID\"}")
+  --data "{\"external_id\": \"$EXTERNAL_ID\"}"\
+  --retry 5 --retry-delay 10)
 
 service_principal=$(echo "$response" | jq .service_principal)
 if [[ "$service_principal" != "null" ]]; then
