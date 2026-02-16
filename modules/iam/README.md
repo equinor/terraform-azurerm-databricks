@@ -11,6 +11,8 @@ Use this Terraform module to assign Entra ID users, groups and service principal
 ## Prerequisites
 
 - [Automatic enablement of Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/get-started#enablement) (enabled by default after November 9, 2023)
+- `bash`
+- `jq`
 
 ## Usage
 
@@ -30,6 +32,12 @@ module "databricks_iam" {
     "admins" = {
       external_id  = "4ddc3f27-c0b1-491e-bdba-ce0f83c65a37" # Object ID from Entra ID
       admin_access = true
+    }
+  }
+  external_service_principals = {
+    "deploy" = {
+      external_id          = "d642b4b1-5d5a-42d2-9323-ac1677bffada" # Object ID from Entra ID
+      allow_cluster_create = true
     }
   }
 }

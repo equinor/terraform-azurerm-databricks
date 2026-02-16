@@ -20,5 +20,10 @@ terraform {
       # Time provider version 0.5.0 required to use the "time_sleep" resource
       version = ">= 0.5.0"
     }
+
+    external = {
+      source  = "hashicorp/external"
+      version = ">= 2.0.0"
+    }
   }
 }
