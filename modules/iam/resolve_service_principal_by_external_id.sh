@@ -23,10 +23,11 @@ EXTERNAL_ID="$3"
 readonly EXTERNAL_ID
 
 # TODO: add retries?
-response=$(curl -sS -X POST "$API_URL" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d "{\"external_id\": \"$EXTERNAL_ID\"}")
+response=$(curl --silent --show-error \
+  --request POST "$API_URL" \
+  --header "Authorization: Bearer $TOKEN" \
+  --header "Content-Type: application/json" \
+  --data "{\"external_id\": \"$EXTERNAL_ID\"}")
 
 service_principal=$(echo "$response" | jq .service_principal)
 if [[ "$service_principal" != "null" ]]; then
