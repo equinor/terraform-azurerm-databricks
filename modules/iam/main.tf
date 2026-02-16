@@ -25,35 +25,23 @@ resource "time_sleep" "metastore_assignment" {
   }
 }
 
-# Use the IAM V2 (Beta) API to resolve the account-level groups with the given object IDs from Entra ID.
-# If a group does not exist in the Databricks account, it will be created.
-# Ref: https://docs.databricks.com/api/azure/workspace/iamv2/resolvegroupproxy
-data "http" "external_group" {
+data "external" "resolve_group_by_external_id" {
   for_each = var.external_groups
 
-  method = "POST"
-  url    = "https://${var.workspace_url}/api/2.0/identity/groups/resolveByExternalId"
-  request_headers = {
-    "Authorization" = "Bearer ${databricks_token.this.token_value}"
-    "Content-Type"  = "application/json"
-  }
-  request_body = jsonencode({
-    "external_id" = each.value.external_id
-  })
-
-  retry {
-    attempts     = 5
-    min_delay_ms = 1000 # 1 second
-    max_delay_ms = 5000 # 5 seconds
-  }
+  program = [
+    "bash", "${path.module}/resolve_group_by_external_id.sh",
+    var.workspace_url,
+    databricks_token.this.token_value,
+    each.value.external_id
+  ]
 }
 
 # Assign the account-level groups to the Databricks workspace.
 # This will create corresponding workspace-level groups.
 resource "databricks_permission_assignment" "external_group" {
-  for_each = data.http.external_group
+  for_each = data.external.resolve_group_by_external_id
 
-  principal_id = jsondecode(each.value.response_body).group.internal_id
+  principal_id = each.value.result.internal_id
   permissions  = var.external_groups[each.key].admin_access ? ["ADMIN"] : ["USER"]
 
   depends_on = [
