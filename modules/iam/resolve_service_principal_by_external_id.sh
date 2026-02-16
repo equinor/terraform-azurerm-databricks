@@ -30,7 +30,12 @@ response=$(curl -sS -X POST "$API_URL" \
 
 service_principal=$(echo "$response" | jq .service_principal)
 if [[ "$service_principal" != "null" ]]; then
-  echo "$service_principal"
+  echo "$service_principal" | jq '{
+    internal_id: (.internal_id | tostring),
+    application_id: .application_id,
+    display_name: .display_name,
+    external_id: .external_id
+  }' 
   exit 0
 fi
 
