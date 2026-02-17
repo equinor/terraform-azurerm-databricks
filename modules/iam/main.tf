@@ -15,14 +15,12 @@ resource "databricks_token" "this" {
   }
 }
 
-resource "time_sleep" "metastore_assignment" {
-  # Wait for a metastore to be automatically assigned to the Databricks workspace.
-  create_duration = "15m"
-
-  triggers = {
-    # If the Databricks workspace URL changes, assume that it's a new workspace and wait for a metastore to be automatically assigned to it.
-    workspace_url = var.workspace_url
-  }
+data "external" "current_metastore_assignment" {
+  program = [
+    "bash", "${path.module}/current_metastore_assignment.sh",
+    var.workspace_url,
+    databricks_token.this.token_value
+  ]
 }
 
 data "external" "resolve_group_by_external_id" {
@@ -46,7 +44,7 @@ resource "databricks_permission_assignment" "external_group" {
 
   depends_on = [
     # A metastore must be assigned to the Databricks workspace before permissions can be assigned to groups.
-    time_sleep.metastore_assignment
+    data.external.current_metastore_assignment
   ]
 }
 
@@ -88,7 +86,7 @@ resource "databricks_permission_assignment" "external_service_principal" {
 
   depends_on = [
     # A metastore must be assigned to the Databricks workspace before permissions can be assigned to service principals.
-    time_sleep.metastore_assignment
+    data.external.current_metastore_assignment
   ]
 }
 
