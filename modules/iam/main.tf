@@ -36,7 +36,7 @@ data "external" "resolve_group_by_external_id" {
 
 # Assign the account-level groups to the Databricks workspace.
 # This will create corresponding workspace-level groups.
-resource "databricks_permission_assignment" "external_group" {
+resource "databricks_permission_assignment" "group" {
   for_each = data.external.resolve_group_by_external_id
 
   principal_id = each.value.result.internal_id
@@ -49,15 +49,15 @@ resource "databricks_permission_assignment" "external_group" {
 }
 
 # Retrieve information about the corresponding workspace-level groups.
-data "databricks_group" "external_group" {
-  for_each = databricks_permission_assignment.external_group
+data "databricks_group" "this" {
+  for_each = databricks_permission_assignment.group
 
   display_name = each.value.display_name
 }
 
 # Set entitlements to the workspace-level groups.
-resource "databricks_entitlements" "external_group" {
-  for_each = data.databricks_group.external_group
+resource "databricks_entitlements" "group" {
+  for_each = data.databricks_group.this
 
   group_id              = each.value.id
   workspace_access      = var.groups[each.key].workspace_access
@@ -78,7 +78,7 @@ data "external" "resolve_service_principal_by_external_id" {
 
 # Assign the account-level service principals to the Databricks workspace.
 # This will create corresponding workspace-level service principals.
-resource "databricks_permission_assignment" "external_service_principal" {
+resource "databricks_permission_assignment" "service_principal" {
   for_each = data.external.resolve_service_principal_by_external_id
 
   principal_id = each.value.result.internal_id
@@ -91,15 +91,15 @@ resource "databricks_permission_assignment" "external_service_principal" {
 }
 
 # Retrieve information about the corresponding workspace-level service principals.
-data "databricks_service_principal" "external_service_principal" {
-  for_each = databricks_permission_assignment.external_service_principal
+data "databricks_service_principal" "this" {
+  for_each = databricks_permission_assignment.service_principal
 
   display_name = each.value.display_name
 }
 
 # Set entitlements to the workspace-level service principals.
-resource "databricks_entitlements" "external_service_principal" {
-  for_each = data.databricks_service_principal.external_service_principal
+resource "databricks_entitlements" "service_principal" {
+  for_each = data.databricks_service_principal.this
 
   service_principal_id  = each.value.id
   workspace_access      = var.service_principals[each.key].workspace_access
