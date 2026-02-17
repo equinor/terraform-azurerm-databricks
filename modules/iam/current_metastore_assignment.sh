@@ -19,18 +19,18 @@ readonly API_URL
 TOKEN="$2"
 readonly TOKEN
 
-# If the workspace was just created, it can take a while before a metastore has
-# been assigned to it.
-RETRY_MAX_TIME_IN_SECONDS=1800 # 30 minutes
-readonly RETRY_MAX_TIME_IN_SECONDS
+# # If the workspace was just created, it can take a while before a metastore has
+# # been assigned to it.
+# RETRY_MAX_TIME_IN_SECONDS=1800 # 30 minutes
+# readonly RETRY_MAX_TIME_IN_SECONDS
 
-RETRY_DELAY_IN_SECONDS=10
-readonly RETRY_DELAY_IN_SECONDS
+# RETRY_DELAY_IN_SECONDS=10
+# readonly RETRY_DELAY_IN_SECONDS
 
-NUMBER_OF_RETRIES=$(( RETRY_MAX_TIME_IN_SECONDS / RETRY_DELAY_IN_SECONDS ))
-readonly NUMBER_OF_RETRIES
+# NUMBER_OF_RETRIES=$(( RETRY_MAX_TIME_IN_SECONDS / RETRY_DELAY_IN_SECONDS ))
+# readonly NUMBER_OF_RETRIES
 
-for (( i=0; i<"$NUMBER_OF_RETRIES"; i++ )); do
+# for (( i=0; i<"$NUMBER_OF_RETRIES"; i++ )); do
   response=$(curl --silent --show-error \
     --request GET "$API_URL" \
     --header "Authorization: Bearer $TOKEN" \
@@ -38,14 +38,14 @@ for (( i=0; i<"$NUMBER_OF_RETRIES"; i++ )); do
     --retry 5 --retry-delay 10)
 
   metastore_id=$(echo "$response" | jq -r .metastore_id)
-  # TODO: verify if "null" is the returned result for newly created workspaces...
-  if [[ "$metastore_id" != "null" ]]; then
+  # # TODO: verify if "null" is the returned result for newly created workspaces...
+  # if [[ "$metastore_id" != "null" ]]; then
     jq --null-input --arg metastore_id "$metastore_id" '{metastore_id: $metastore_id}'
-    exit 0
-  fi
+#     exit 0
+#   fi
 
-  sleep "${RETRY_DELAY_IN_SECONDS}s"
-done
+#   sleep "${RETRY_DELAY_IN_SECONDS}s"
+# done
 
-echo "Unhandled error after $NUMBER_OF_RETRIES retries (${RETRY_MAX_TIME_IN_SECONDS}s): $response" >&2
-exit 1
+# echo "Unhandled error after $NUMBER_OF_RETRIES retries (${RETRY_MAX_TIME_IN_SECONDS}s): $response" >&2
+# exit 1
