@@ -21,7 +21,7 @@ Use a [workspace-level Databricks provider](https://registry.terraform.io/provid
 ```terraform
 module "databricks_iam" {
   source  = "equinor/databricks/azurerm//modules/iam"
-  version = "~> 4.2"
+  version = "~> 4.3"
 
   workspace_url = data.azurerm_databricks_workspace.example.workspace_url
   external_groups = {

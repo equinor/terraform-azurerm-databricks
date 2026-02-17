@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.3.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.2.2...v4.3.0) (2026-02-17)
+
+
+### Features
+
+* **iam:** assign Entra ID service principals to workspace ([#63](https://github.com/equinor/terraform-azurerm-databricks/issues/63)) ([af878ab](https://github.com/equinor/terraform-azurerm-databricks/commit/af878abaec716e8b2224de8f2ddab46b93366da5))
+
+
+### Bug Fixes
+
+* **iam:** recently created Entra ID group not found in account ([#65](https://github.com/equinor/terraform-azurerm-databricks/issues/65)) ([dbebe91](https://github.com/equinor/terraform-azurerm-databricks/commit/dbebe91ee487f4f25060ee4e35670dd6702d15c2))
+* **iam:** wait up to 30 minutes for external identity propagation ([#67](https://github.com/equinor/terraform-azurerm-databricks/issues/67)) ([9dc103d](https://github.com/equinor/terraform-azurerm-databricks/commit/9dc103db66ea20779ee5bc2ec42e78bdd78245c0))
+
 ## [4.2.2](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.2.1...v4.2.2) (2026-02-09)
 
 
