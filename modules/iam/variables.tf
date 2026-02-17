@@ -4,8 +4,8 @@ variable "workspace_url" {
   nullable    = false
 }
 
-variable "external_groups" {
-  description = "A map of external groups to assign to the Databricks workspace. To assign a group from Microsoft Entra ID, the external ID should match the Microsoft Entra group object ID."
+variable "groups" {
+  description = "A map of groups to assign to the Databricks workspace. To assign a group from Microsoft Entra ID, the external ID should match the Microsoft Entra group object ID."
   type = map(object({
     external_id           = string
     admin_access          = optional(bool, false)
@@ -17,8 +17,8 @@ variable "external_groups" {
   default  = {}
 }
 
-variable "external_service_principals" {
-  description = "A map of external service principals to assign to the Databricks workspace. To assign a service principal from Microsoft Entra ID, the external ID should match the Microsoft Entra service principal object ID."
+variable "service_principals" {
+  description = "A map of service principals to assign to the Databricks workspace. To assign a service principal from Microsoft Entra ID, the external ID should match the Microsoft Entra service principal object ID."
   type = map(object({
     external_id           = string
     admin_access          = optional(bool, false)

@@ -24,7 +24,7 @@ module "databricks_iam" {
   version = "~> 4.3"
 
   workspace_url = data.azurerm_databricks_workspace.example.workspace_url
-  external_groups = {
+  groups = {
     "users" = {
       external_id = "85e19454-004b-4d13-bb08-21978c58a927" # Object ID from Entra ID
     }
@@ -34,7 +34,7 @@ module "databricks_iam" {
       admin_access = true
     }
   }
-  external_service_principals = {
+  service_principals = {
     "deploy" = {
       external_id          = "d642b4b1-5d5a-42d2-9323-ac1677bffada" # Object ID from Entra ID
       allow_cluster_create = true
