@@ -8,9 +8,14 @@ If [automatic identity management](https://learn.microsoft.com/en-us/azure/datab
 
 Use this Terraform module to assign Entra ID users, groups and service principals to your Azure Databricks workspace.
 
+## Features
+
+- Waits for a Unity Catalog metastore to be assigned to the workspace before assigning permissions
+
 ## Prerequisites
 
 - [Automatic enablement of Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/get-started#enablement) (enabled by default after November 9, 2023)
+- Automatic identity management enabled
 - `bash`
 - `jq`
 
