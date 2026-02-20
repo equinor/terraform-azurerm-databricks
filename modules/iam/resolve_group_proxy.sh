@@ -7,7 +7,7 @@
 # Ref: https://docs.databricks.com/api/azure/workspace/iamv2/resolvegroupproxy
 #
 # Usage:
-#   ./resolve_group_by_external_id.sh <WORKSPACE_URL> <TOKEN> <EXTERNAL_ID>
+#   ./resolve_group_proxy.sh <WORKSPACE_URL> <TOKEN> <EXTERNAL_ID>
 
 set -e
 
@@ -23,18 +23,12 @@ readonly TOKEN
 EXTERNAL_ID="$3"
 readonly EXTERNAL_ID
 
-# If the Entra ID group was just created, it can take a few attempts before it
-# can be resolved in Databricks.
-RETRY_MAX_TIME_IN_SECONDS=1800 # 30 minutes
-readonly RETRY_MAX_TIME_IN_SECONDS
+# If the Entra ID group was just created, it can take a while before it can be
+# resolved in Databricks.
+END_TIME_SECONDS=$((SECONDS + 1800)) # 30 minutes
+readonly END_TIME_SECONDS
 
-RETRY_DELAY_IN_SECONDS=10
-readonly RETRY_DELAY_IN_SECONDS
-
-NUMBER_OF_RETRIES=$(( RETRY_MAX_TIME_IN_SECONDS / RETRY_DELAY_IN_SECONDS ))
-readonly NUMBER_OF_RETRIES
-
-for (( i=0; i<"$NUMBER_OF_RETRIES"; i++ )); do
+while [[ "$SECONDS" -lt "$END_TIME_SECONDS" ]]; do
   response=$(curl --silent --show-error \
     --request POST "$API_URL" \
     --header "Authorization: Bearer $TOKEN" \
@@ -52,8 +46,8 @@ for (( i=0; i<"$NUMBER_OF_RETRIES"; i++ )); do
     exit 0
   fi
 
-  sleep "${RETRY_DELAY_IN_SECONDS}s"
+  sleep 10s
 done
 
-echo "Unhandled error after $NUMBER_OF_RETRIES retries (${RETRY_MAX_TIME_IN_SECONDS}s): $response" >&2
+echo "Unhandled error: $response" >&2
 exit 1
