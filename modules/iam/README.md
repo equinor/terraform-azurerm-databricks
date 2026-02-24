@@ -24,7 +24,7 @@ Use this Terraform module to assign Entra ID users, groups and service principal
 Use a [workspace-level Databricks provider](https://registry.terraform.io/providers/databricks/databricks/latest/docs) to assign Entra ID users, groups and service principals to your workspace:
 
 ```terraform
-module "databricks_iam" {
+module "databricks_iam_v2" {
   source  = "equinor/databricks/azurerm//modules/iam"
   version = "~> 4.3"
 
@@ -43,6 +43,29 @@ module "databricks_iam" {
     "deploy" = {
       external_id          = "d642b4b1-5d5a-42d2-9323-ac1677bffada" # Object ID from Entra ID
       allow_cluster_create = true
+    }
+  }
+}
+
+module "databricks_iam" {
+  source  = "equinor/databricks/azurerm//modules/iam"
+  version = "~> 4.3"
+
+  account_id = "5509fd8d-c947-406a-ab92-eeaaa8e13faf"
+  service_principals = {
+    "job_runner" = {
+      display_name         = "job-runner"
+      allow_cluster_create = true
+      permissions = [
+        {
+          group_name        = module.databricks_iam_v2.external_group_names["admin"]
+          permissions_level = "CAN_MANAGE"
+        },
+        {
+          group_name        = module.databricks_iam_v2.external_group_names["developer"]
+          permissions_level = "CAN_USE"
+        }
+      ]
     }
   }
 }
