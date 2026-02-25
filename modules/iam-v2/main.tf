@@ -24,7 +24,7 @@ data "external" "current_metastore_assignment" {
 }
 
 data "external" "resolve_group_proxy" {
-  for_each = var.external_groups
+  for_each = var.groups
 
   program = [
     "bash", "${path.module}/resolve_group_proxy.sh",
@@ -40,7 +40,7 @@ resource "databricks_permission_assignment" "group" {
   for_each = data.external.resolve_group_proxy
 
   principal_id = each.value.result.internal_id
-  permissions  = var.external_groups[each.key].admin_access ? ["ADMIN"] : ["USER"]
+  permissions  = var.groups[each.key].admin_access ? ["ADMIN"] : ["USER"]
 
   depends_on = [
     # A metastore must be assigned to the Databricks workspace before permissions can be assigned to groups.
@@ -60,13 +60,13 @@ resource "databricks_entitlements" "group" {
   for_each = data.databricks_group.this
 
   group_id              = each.value.id
-  workspace_access      = var.external_groups[each.key].workspace_access
-  databricks_sql_access = var.external_groups[each.key].databricks_sql_access
-  allow_cluster_create  = var.external_groups[each.key].allow_cluster_create
+  workspace_access      = var.groups[each.key].workspace_access
+  databricks_sql_access = var.groups[each.key].databricks_sql_access
+  allow_cluster_create  = var.groups[each.key].allow_cluster_create
 }
 
 data "external" "resolve_service_principal_proxy" {
-  for_each = var.external_service_principals
+  for_each = var.service_principals
 
   program = [
     "bash", "${path.module}/resolve_service_principal_proxy.sh",
@@ -82,7 +82,7 @@ resource "databricks_permission_assignment" "service_principal" {
   for_each = data.external.resolve_service_principal_proxy
 
   principal_id = each.value.result.internal_id
-  permissions  = var.external_service_principals[each.key].admin_access ? ["ADMIN"] : ["USER"]
+  permissions  = var.service_principals[each.key].admin_access ? ["ADMIN"] : ["USER"]
 
   depends_on = [
     # A metastore must be assigned to the Databricks workspace before permissions can be assigned to service principals.
@@ -102,7 +102,7 @@ resource "databricks_entitlements" "service_principal" {
   for_each = data.databricks_service_principal.this
 
   service_principal_id  = each.value.id
-  workspace_access      = var.external_service_principals[each.key].workspace_access
-  databricks_sql_access = var.external_service_principals[each.key].databricks_sql_access
-  allow_cluster_create  = var.external_service_principals[each.key].allow_cluster_create
+  workspace_access      = var.service_principals[each.key].workspace_access
+  databricks_sql_access = var.service_principals[each.key].databricks_sql_access
+  allow_cluster_create  = var.service_principals[each.key].allow_cluster_create
 }
