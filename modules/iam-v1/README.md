@@ -16,15 +16,36 @@ module "databricks_iam" {
       allow_cluster_create = true
       permissions = [
         {
-          group_name        = module.databricks_iam_v2.external_group_names["admin"]
+          group_name        = data.databricks_group.admins.display_name
           permissions_level = "CAN_MANAGE"
         },
         {
-          group_name        = module.databricks_iam_v2.external_group_names["developer"]
+          group_name        = data.databricks_group.users.display_name
           permissions_level = "CAN_USE"
         }
       ]
     }
   }
+}
+
+data "databricks_group" "admins" {
+  display_name = "Databricks Admins"
+}
+
+data "databricks_group" "users" {
+  display_name = "Databricks Users"
+}
+
+provider "databricks" {
+  host = data.azurerm_databricks_workspace.example.workspace_url
+}
+
+data "azurerm_databricks_workspace" "example" {
+  name                = "example-databricks"
+  resource_group_name = "example-resources"
+}
+
+provider "azurerm" {
+  features {}
 }
 ```
