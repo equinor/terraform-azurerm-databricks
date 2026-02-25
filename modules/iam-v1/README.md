@@ -16,12 +16,12 @@ module "databricks_iam" {
       allow_cluster_create = true
       permissions = [
         {
-          group_name        = data.databricks_group.admins.display_name
-          permissions_level = "CAN_MANAGE"
+          group_name       = data.databricks_group.admins.display_name
+          permission_level = "CAN_MANAGE"
         },
         {
-          group_name        = data.databricks_group.users.display_name
-          permissions_level = "CAN_USE"
+          group_name       = data.databricks_group.users.display_name
+          permission_level = "CAN_USE"
         }
       ]
     }
