@@ -6,7 +6,7 @@ Terraform module which creates Azure Databricks resources.
 
 - Premium tier Databricks workspace created by default (trial tier available, which gives 14 days of free access to premium DBUs).
 - Audit logs sent to given Log Analytics workspace by default.
-- Simplified identity and access management using the `iam` submodule.
+- Simplified identity and access management using the `iam-v2` submodule.
 
 ## Prerequisites
 

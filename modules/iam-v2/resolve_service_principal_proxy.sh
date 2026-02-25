@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# Use the IAM V2 (Beta) API to resolve an account-level service principal with
+# Use the IAM v2 (Beta) API to resolve an account-level service principal with
 # the given object ID from Entra ID. If the service principal does not exist in
 # the Databricks account, it will be created.
 #
