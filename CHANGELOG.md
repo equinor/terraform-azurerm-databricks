@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.3.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.3.0...v4.3.1) (2026-02-25)
+
+
+### Features
+
+* **iam-v2:** add outputs `group_display_names` and `service_principal_application_ids` ([#71](https://github.com/equinor/terraform-azurerm-databricks/issues/71)) ([657eb71](https://github.com/equinor/terraform-azurerm-databricks/commit/657eb71ca26e81a23b59b5a50e46cab6b2ea727c))
+
+
+### Code Refactoring
+
+* **iam-v2:** remove `external_` prefix from variable and resource names ([#75](https://github.com/equinor/terraform-azurerm-databricks/issues/75)) ([51ca0d7](https://github.com/equinor/terraform-azurerm-databricks/commit/51ca0d7faba975064531ac71b5fabdc155de85a1))
+* rename beta submodule `iam` to `iam-v2` ([#72](https://github.com/equinor/terraform-azurerm-databricks/issues/72)) ([cec862a](https://github.com/equinor/terraform-azurerm-databricks/commit/cec862a6b771ac3bbdf0d2d7b5363b5924af31c6))
+
 ## [4.3.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.2.2...v4.3.0) (2026-02-17)
 
 
