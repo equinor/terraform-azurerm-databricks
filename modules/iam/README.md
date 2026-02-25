@@ -24,7 +24,7 @@ Use this Terraform module to assign Entra ID users, groups and service principal
 Use a [workspace-level Databricks provider](https://registry.terraform.io/providers/databricks/databricks/latest/docs) to assign Entra ID users, groups and service principals to your workspace:
 
 ```terraform
-module "databricks_iam_v2" {
+module "databricks_iam" {
   source  = "equinor/databricks/azurerm//modules/iam"
   version = "~> 4.3"
 
@@ -43,29 +43,6 @@ module "databricks_iam_v2" {
     "deploy" = {
       external_id          = "d642b4b1-5d5a-42d2-9323-ac1677bffada" # Object ID from Entra ID
       allow_cluster_create = true
-    }
-  }
-}
-
-module "databricks_iam" {
-  source  = "equinor/databricks/azurerm//modules/iam"
-  version = "~> 4.3"
-
-  account_id = "5509fd8d-c947-406a-ab92-eeaaa8e13faf"
-  service_principals = {
-    "job_runner" = {
-      display_name         = "job-runner"
-      allow_cluster_create = true
-      permissions = [
-        {
-          group_name        = module.databricks_iam_v2.external_group_names["admin"]
-          permissions_level = "CAN_MANAGE"
-        },
-        {
-          group_name        = module.databricks_iam_v2.external_group_names["developer"]
-          permissions_level = "CAN_USE"
-        }
-      ]
     }
   }
 }
@@ -89,4 +66,4 @@ Users, groups and service principals that are synced from Entra ID are shown as 
 ## Notes
 
 - The [`databricks_group` resource](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/group) uses the old [SCIM API](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/scim/) to create groups. Using this resource with a workspace-level Databricks provider will create [legacy workspace-local groups](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/workspace-local-groups) that will not work with automatic identity management.
-- The `databricks_access_control_rule_set` can not be used to manage access rules for service principals assigned by this module. Entra ID service principals assigned to the workspace by this module must be managed in Entra ID instead. For service principals that should be used to run jobs, consider creating a Databricks service principal using the `databricks_service_principal` instead.
+- The `databricks_access_control_rule_set` can not be used to manage access rules for service principals assigned by this module. Entra ID service principals assigned to the workspace by this module must be managed in Entra ID instead. For service principals that should be used to run jobs, create a Databricks service principal using the `iam` submodule instead.
