@@ -8,7 +8,8 @@ resource "databricks_service_principal" "this" {
 }
 
 locals {
-  # For each Databricks service principal, convert permission objects to access control rule objects
+  # For each Databricks service principal, convert permission objects to access control rule objects.
+  # 
   access_control_rules = {
     for key, sp in var.service_principals : key => [for permission in sp.permissions : {
       acl_user_id              = permission.user_name != null ? "users/${permission.user_name}" : null
@@ -22,13 +23,15 @@ locals {
   }
 }
 
+data "databricks_current_user" "this" {}
+
 resource "databricks_access_control_rule_set" "service_principal" {
   for_each = databricks_service_principal.this
 
   name = "accounts/${var.account_id}/servicePrincipals/${each.value.application_id}/ruleSets/default"
 
   grant_rules {
-    principals = [for rule in local.access_control_rules[each.key] : coalesce(rule.acl_user_id, rule.acl_group_id, rule.acl_service_principal_id) if rule.role == "roles/servicePrincipal.manager"]
+    principals = concat([data.databricks_current_user.this.acl_principal_id], [for rule in local.access_control_rules[each.key] : coalesce(rule.acl_user_id, rule.acl_group_id, rule.acl_service_principal_id) if rule.role == "roles/servicePrincipal.manager"])
     role       = "roles/servicePrincipal.manager"
   }
 

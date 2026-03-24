@@ -12,8 +12,10 @@ module "databricks_iam" {
   account_id = "5509fd8d-c947-406a-ab92-eeaaa8e13faf"
   service_principals = {
     "job_runner" = {
-      display_name         = "job-runner"
-      allow_cluster_create = true
+      display_name          = "job-runner"
+      workspace_access      = true
+      databricks_sql_access = true
+      allow_cluster_create  = true
       permissions = [
         {
           group_name       = "Databricks Admins"
