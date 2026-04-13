@@ -15,7 +15,7 @@ locals {
   # permissions-like interface for managing service principal access control
   # using the "databricks_access_control_rule_set" resource. If support for
   # using the "databricks_permissions" resource is added in the future, we
-  # should be able to make the switch without changing this interface.
+  # should be able to migrate to that resource without changing this interface.
   access_control_rules = {
     for key, sp in var.service_principals : key => [for permission in sp.permissions : {
       acl_user_id              = permission.user_name != null ? "users/${permission.user_name}" : null
