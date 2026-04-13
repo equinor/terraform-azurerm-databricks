@@ -5,8 +5,8 @@ terraform {
   required_providers {
     databricks = {
       source = "databricks/databricks"
-      # Databricks provider version 1.31.0 required to use the "databricks_current_config" data source
-      version = ">= 1.31.0"
+      # Databricks provider version 1.22.0 required to use the "databricks_access_control_rule_set" resource
+      version = ">= 1.22.0"
     }
   }
 }
