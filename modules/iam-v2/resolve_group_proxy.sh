@@ -46,6 +46,14 @@ while [[ "$SECONDS" -lt "$END_TIME_SECONDS" ]]; do
     exit 0
   fi
 
+  error_code=$(echo "$response" | jq -r .error_code)
+  case "$error_code" in
+    "NOT_IMPLEMENTED")
+      echo "Error ($error_code): Automatic identity management is not enabled for this workspace." >&2
+      exit 1
+    ;;
+  esac
+
   sleep 10s
 done
 
