@@ -7,7 +7,7 @@ Terraform module which creates Azure Databricks Identity and Access Management (
 ```terraform
 module "databricks_iam" {
   source  = "equinor/databricks/azurerm//modules/iam"
-  version = "~> 4.3"
+  version = "~> 4.4"
 
   account_id = "5509fd8d-c947-406a-ab92-eeaaa8e13faf"
   service_principals = {
