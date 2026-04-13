@@ -1,0 +1,49 @@
+resource "databricks_service_principal" "this" {
+  for_each = var.service_principals
+
+  display_name         = each.value.display_name
+  allow_cluster_create = each.value.allow_cluster_create
+
+  # These have no effect for Databricks service principals, only external
+  # service principals.
+  workspace_access      = null
+  databricks_sql_access = null
+}
+
+locals {
+  # For each Databricks service principal, convert permission objects to access
+  # control rule objects. Service principals are currently the only type of
+  # object in Databricks that do not support the "databricks_permissions"
+  # resource for managing access control. In this module, we provide a
+  # permissions-like interface for managing service principal access control
+  # using the "databricks_access_control_rule_set" resource. If support for
+  # using the "databricks_permissions" resource is added in the future, we
+  # should be able to migrate to that resource without changing this interface.
+  access_control_rules = {
+    for key, sp in var.service_principals : key => [for permission in sp.permissions : {
+      acl_user_id              = permission.user_name != null ? "users/${permission.user_name}" : null
+      acl_group_id             = permission.group_name != null ? "groups/${permission.group_name}" : null
+      acl_service_principal_id = permission.service_principal_name != null ? "servicePrincipals/${permission.service_principal_name}" : null
+      role = {
+        "CAN_MANAGE" = "roles/servicePrincipal.manager"
+        "CAN_USE"    = "roles/servicePrincipal.user"
+      }[permission.permission_level]
+    }]
+  }
+}
+
+resource "databricks_access_control_rule_set" "service_principal" {
+  for_each = databricks_service_principal.this
+
+  name = "accounts/${var.account_id}/servicePrincipals/${each.value.application_id}/ruleSets/default"
+
+  grant_rules {
+    principals = [for rule in local.access_control_rules[each.key] : coalesce(rule.acl_user_id, rule.acl_group_id, rule.acl_service_principal_id) if rule.role == "roles/servicePrincipal.manager"]
+    role       = "roles/servicePrincipal.manager"
+  }
+
+  grant_rules {
+    principals = [for rule in local.access_control_rules[each.key] : coalesce(rule.acl_user_id, rule.acl_group_id, rule.acl_service_principal_id) if rule.role == "roles/servicePrincipal.user"]
+    role       = "roles/servicePrincipal.user"
+  }
+}
