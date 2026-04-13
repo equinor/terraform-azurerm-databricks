@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.4.0...v4.5.0) (2026-04-13)
+
+
+### Features
+
+* **iam:** create service principals ([#73](https://github.com/equinor/terraform-azurerm-databricks/issues/73)) ([9506891](https://github.com/equinor/terraform-azurerm-databricks/commit/95068919e2d083105161d95d236b89e30232163a))
+
 ## [4.4.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.3.1...v4.4.0) (2026-04-13)
 
 
