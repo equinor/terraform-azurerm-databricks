@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.4.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.3.1...v4.4.0) (2026-04-13)
+
+
+### Features
+
+* **iam-v2:** handle known error code `NOT_IMPLEMENTED` ([#76](https://github.com/equinor/terraform-azurerm-databricks/issues/76)) ([bb12718](https://github.com/equinor/terraform-azurerm-databricks/commit/bb12718eed0a9ae1062518dc82891c5cf9e1512f))
+
+
+### Bug Fixes
+
+* **iam-v2:** prevent external principals from losing access during token rotation ([#78](https://github.com/equinor/terraform-azurerm-databricks/issues/78)) ([a638a11](https://github.com/equinor/terraform-azurerm-databricks/commit/a638a11a8d90af5298ae96649a2e4c2f59910bdb))
+
 ## [4.3.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.3.0...v4.3.1) (2026-02-25)
 
 
