@@ -1,7 +1,7 @@
 variable "account_id" {
-  # TODO: add description.
-  type     = string
-  nullable = false
+  description = "The ID of the Databricks account to manage service principal permissions for."
+  type        = string
+  nullable    = false
 }
 
 variable "service_principals" {
@@ -16,27 +16,23 @@ variable "service_principals" {
       group_name             = optional(string)
       service_principal_name = optional(string)
       permission_level       = string
-    })))
+    })), [])
   }))
   nullable = false
-  default = {
-    "example" = {
-      display_name = "example-sp"
-      permissions = [
-        {
-          user_name        = "example-user"
-          group_name       = "example-group"
-          permission_level = "foo"
-        }
-      ]
-    }
+  default  = {}
+
+  validation {
+    condition = alltrue([
+      for _, sp in var.service_principals : length(sp.permissions) > 0
+    ])
+    error_message = "At least one permission object must be specified."
   }
 
   validation {
     condition = alltrue([
       for _, sp in var.service_principals :
       alltrue([
-        for p in coalesce(sp.permissions, []) :
+        for p in sp.permissions :
         length(compact([p.user_name, p.group_name, p.service_principal_name])) == 1
       ])
     ])
@@ -47,7 +43,7 @@ variable "service_principals" {
     condition = alltrue([
       for _, sp in var.service_principals :
       alltrue([
-        for p in coalesce(sp.permissions, []) :
+        for p in sp.permissions :
         p.permission_level == "CAN_MANAGE" || p.permission_level == "CAN_USE"
       ])
     ])
