@@ -46,6 +46,19 @@ resource "databricks_permission_assignment" "group" {
     # A metastore must be assigned to the Databricks workspace before permissions can be assigned to groups.
     data.external.current_metastore_assignment
   ]
+
+  lifecycle {
+    ignore_changes = [
+      # If the token used to resolve the internal ID of the group has expired,
+      # it will be rotated and Terraform will be unable to resolve the external
+      # group during the plan phase. In this case, the result of the external
+      # group proxy will be deferred until the apply phase, forcing the
+      # replacement (i.e., temporary removal) of this permission assignment.
+      # Ignore changes to the internal ID to prevent external groups from
+      # temporarily losing access to the workspace.
+      principal_id
+    ]
+  }
 }
 
 # Retrieve information about the corresponding workspace-level groups.
@@ -88,6 +101,20 @@ resource "databricks_permission_assignment" "service_principal" {
     # A metastore must be assigned to the Databricks workspace before permissions can be assigned to service principals.
     data.external.current_metastore_assignment
   ]
+
+  lifecycle {
+    ignore_changes = [
+      # If the token used to resolve the internal ID of the service principal
+      # has expired, it will be rotated and Terraform will be unable to resolve
+      # the external service principal during the plan phase. In this case, the
+      # result of the external service principal proxy will be deferred until
+      # the apply phase, forcing the replacement (i.e., temporary removal) of
+      # this permission assignment. Ignore changes to the internal ID to prevent
+      # external service principals from temporarily losing access to the
+      # workspace.
+      principal_id
+    ]
+  }
 }
 
 # Retrieve information about the corresponding workspace-level service principals.
