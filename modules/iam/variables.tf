@@ -7,10 +7,8 @@ variable "account_id" {
 variable "service_principals" {
   description = "A map of service principals to create in the Databricks workspace. A permission object must specify a user (by display name), group (by display name) or service principal (by application ID), and a permission level (\"CAN_MANAGE\" or \"CAN_USE\")."
   type = map(object({
-    display_name          = string
-    workspace_access      = optional(bool, true)
-    databricks_sql_access = optional(bool, true)
-    allow_cluster_create  = optional(bool, false)
+    display_name         = string
+    allow_cluster_create = optional(bool, false)
     permissions = optional(list(object({
       user_name              = optional(string)
       group_name             = optional(string)

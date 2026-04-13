@@ -13,8 +13,6 @@ module "databricks_iam" {
   service_principals = {
     "job_runner" = {
       display_name          = "job-runner"
-      workspace_access      = true
-      databricks_sql_access = true
       allow_cluster_create  = true
       permissions = [
         {

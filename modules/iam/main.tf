@@ -1,10 +1,13 @@
 resource "databricks_service_principal" "this" {
   for_each = var.service_principals
 
-  display_name          = each.value.display_name
-  workspace_access      = each.value.workspace_access
-  databricks_sql_access = each.value.databricks_sql_access
-  allow_cluster_create  = each.value.allow_cluster_create
+  display_name         = each.value.display_name
+  allow_cluster_create = each.value.allow_cluster_create
+
+  # These have no effect for Databricks service principals, only external
+  # service principals.
+  workspace_access      = null
+  databricks_sql_access = null
 }
 
 locals {
