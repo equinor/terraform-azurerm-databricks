@@ -17,7 +17,7 @@ resource "databricks_token" "this" {
 
 data "external" "current_metastore_assignment" {
   program = [
-    "bash", "${path.module}/current_metastore_assignment.sh",
+    "bash", "${path.module}/scripts/current_metastore_assignment.sh",
     var.workspace_url,
     databricks_token.this.token_value
   ]
@@ -27,7 +27,7 @@ data "external" "resolve_group_proxy" {
   for_each = var.groups
 
   program = [
-    "bash", "${path.module}/resolve_group_proxy.sh",
+    "bash", "${path.module}/scripts/resolve_group_proxy.sh",
     var.workspace_url,
     databricks_token.this.token_value,
     each.value.external_id
@@ -82,7 +82,7 @@ data "external" "resolve_service_principal_proxy" {
   for_each = var.service_principals
 
   program = [
-    "bash", "${path.module}/resolve_service_principal_proxy.sh",
+    "bash", "${path.module}/scripts/resolve_service_principal_proxy.sh",
     var.workspace_url,
     databricks_token.this.token_value,
     each.value.external_id
