@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.5.0...v4.5.1) (2026-07-28)
+
+
+### Bug Fixes
+
+* **iam:** service principals no longer implicitly granted workspace and SQL access ([#81](https://github.com/equinor/terraform-azurerm-databricks/issues/81)) ([ec20a0b](https://github.com/equinor/terraform-azurerm-databricks/commit/ec20a0b61e112178320965d734029d42953882be))
+
 ## [4.5.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.4.0...v4.5.0) (2026-04-13)
 
 
