@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.2](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.5.1...v4.5.2) (2026-08-07)
+
+
+### Bug Fixes
+
+* **iam-v2:** breaking changes in IAM v2 beta API ([#83](https://github.com/equinor/terraform-azurerm-databricks/issues/83)) ([975fefb](https://github.com/equinor/terraform-azurerm-databricks/commit/975fefbabb87419b4c35d10f316adb1304868c0e))
+
 ## [4.5.1](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.5.0...v4.5.1) (2026-07-28)
 
 
