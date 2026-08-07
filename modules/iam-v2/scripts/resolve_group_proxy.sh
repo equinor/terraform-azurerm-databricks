@@ -39,9 +39,8 @@ while [[ "$SECONDS" -lt "$END_TIME_SECONDS" ]]; do
   group=$(echo "$response" | jq .group)
   if [[ "$group" != "null" ]]; then
     echo "$group" | jq '{
-      internal_id: (.internal_id | tostring),
-      group_name: .group_name,
-      external_id: .external_id
+      group_id: (.group_id | tostring),
+      group_name: .group_name
     }' 
     exit 0
   fi

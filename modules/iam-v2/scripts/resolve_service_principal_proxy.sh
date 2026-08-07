@@ -39,10 +39,9 @@ while [[ "$SECONDS" -lt "$END_TIME_SECONDS" ]]; do
   service_principal=$(echo "$response" | jq .service_principal)
   if [[ "$service_principal" != "null" ]]; then
     echo "$service_principal" | jq '{
-      internal_id: (.internal_id | tostring),
+      service_principal_id: (.service_principal_id | tostring),
       application_id: .application_id,
-      display_name: .display_name,
-      external_id: .external_id
+      display_name: .display_name
     }' 
     exit 0
   fi
