@@ -39,7 +39,7 @@ data "external" "resolve_group_proxy" {
 resource "databricks_permission_assignment" "group" {
   for_each = data.external.resolve_group_proxy
 
-  principal_id = each.value.result.internal_id
+  principal_id = each.value.result.group_id
   permissions  = var.groups[each.key].admin_access ? ["ADMIN"] : ["USER"]
 
   depends_on = [
@@ -94,7 +94,7 @@ data "external" "resolve_service_principal_proxy" {
 resource "databricks_permission_assignment" "service_principal" {
   for_each = data.external.resolve_service_principal_proxy
 
-  principal_id = each.value.result.internal_id
+  principal_id = each.value.result.service_principal_id
   permissions  = var.service_principals[each.key].admin_access ? ["ADMIN"] : ["USER"]
 
   depends_on = [
