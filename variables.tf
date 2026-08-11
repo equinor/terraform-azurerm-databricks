@@ -195,7 +195,7 @@ variable "private_subnet_name" {
 }
 
 variable "private_subnet_network_security_group_association_id" {
-  description = "The ID of the subnet network security group association for the private subnet. Required if virtual_network_id is set."
+  description = "The ID of the subnet network security group association for the private subnet. If value is null, this ID will be automatically resolved."
   type        = string
   default     = null
 }
@@ -207,7 +207,7 @@ variable "public_subnet_name" {
 }
 
 variable "public_subnet_network_security_group_association_id" {
-  description = "The ID of the subnet network security group association for the public subnet. Required if virtual_network_id is set."
+  description = "The ID of the subnet network security group association for the public subnet. If value is null, this ID will be automatically resolved."
   type        = string
   default     = null
 }
