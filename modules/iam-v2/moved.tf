@@ -1,9 +1,4 @@
 moved {
-  from = time_rotating.this
-  to   = time_rotating.token_expiration
-}
-
-moved {
   from = databricks_permission_assignment.external_group
   to   = databricks_permission_assignment.group
 }

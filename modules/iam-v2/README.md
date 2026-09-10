@@ -1,23 +1,15 @@
 # Terraform module for Azure Databricks IAM v2
 
-> **NOTE**: This module directly calls the Databricks IAM v2 API, which is currently in beta. As such, this module should also be considered in beta. Breaking changes may occur without notice as the underlying API and provider evolve.
-
 Terraform module which creates Azure Databricks Identity and Access Management (IAM) v2 resources.
 
 If [automatic identity management](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/automatic-identity-management) is enabled for your Azure Databricks account (enabled by default after August 1, 2025), users, groups and service principals in your Entra ID tenant will be automatically synced to your account.
 
 Use this Terraform module to assign Entra ID users, groups and service principals to your Azure Databricks workspace.
 
-## Features
-
-- Waits for a Unity Catalog metastore to be assigned to the workspace before assigning permissions
-
 ## Prerequisites
 
 - [Automatic enablement of Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/get-started#enablement) (enabled by default after November 9, 2023)
 - [Automatic identity management enabled](https://learn.microsoft.com/en-us/azure/databricks/admin/users-groups/automatic-identity-management#enable-automatic-identity-management) (enabled by default after August 1, 2025)
-- `bash`
-- `jq`
 
 ## Usage
 
@@ -28,7 +20,6 @@ module "databricks_iam_v2" {
   source  = "equinor/databricks/azurerm//modules/iam-v2"
   version = "~> 4.5"
 
-  workspace_url = data.azurerm_databricks_workspace.example.workspace_url
   groups = {
     "users" = {
       external_id = "85e19454-004b-4d13-bb08-21978c58a927" # Object ID from Entra ID
