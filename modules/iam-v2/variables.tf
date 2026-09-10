@@ -1,9 +1,3 @@
-variable "workspace_url" {
-  description = "The URL of the Databricks workspace to assign the identities to."
-  type        = string
-  nullable    = false
-}
-
 variable "groups" {
   description = "A map of external groups to assign to the Databricks workspace. To assign a group from Microsoft Entra ID, the external ID should match the Microsoft Entra group object ID."
   type = map(object({
