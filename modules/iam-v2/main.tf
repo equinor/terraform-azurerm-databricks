@@ -1,7 +1,7 @@
 data "databricks_workspace_iam_external_group_v2" "this" {
   for_each = var.groups
 
-  nane = "external-groups/${each.value.external_id}"
+  name = "external-groups/${each.value.external_id}"
 }
 
 # Assign the account-level groups to the Databricks workspace.
