@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.3](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.5.2...v4.5.3) (2026-09-10)
+
+
+### Code Refactoring
+
+* **iam-v2:** replace external data sources with new Databricks data sources ([#85](https://github.com/equinor/terraform-azurerm-databricks/issues/85)) ([a02dc16](https://github.com/equinor/terraform-azurerm-databricks/commit/a02dc1639c0bf91c3a705e20d9a570ea3ca0ecab))
+
 ## [4.5.2](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.5.1...v4.5.2) (2026-08-07)
 
 
