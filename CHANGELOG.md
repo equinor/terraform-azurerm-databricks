@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.6.0](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.5.3...v4.6.0) (2026-09-17)
+
+
+### Features
+
+* **iam-v2:** assign external users to workspace ([#87](https://github.com/equinor/terraform-azurerm-databricks/issues/87)) ([33803f2](https://github.com/equinor/terraform-azurerm-databricks/commit/33803f28d1a0b860d3c8d317e1527308bb37edb8))
+
 ## [4.5.3](https://github.com/equinor/terraform-azurerm-databricks/compare/v4.5.2...v4.5.3) (2026-09-10)
 
 

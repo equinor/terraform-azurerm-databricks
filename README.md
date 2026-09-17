@@ -23,7 +23,7 @@ provider "azurerm" {
 
 module "databricks" {
   source  = "equinor/databricks/azurerm"
-  version = "~> 4.5"
+  version = "~> 4.6"
 
   workspace_name             = "example-databricks"
   resource_group_name        = azurerm_resource_group.example.name
