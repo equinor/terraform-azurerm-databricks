@@ -1,3 +1,35 @@
+data "databricks_workspace_iam_external_user_v2" "this" {
+  for_each = var.users
+
+  name = "external-users/${each.value.external_id}"
+}
+
+# Assign the account-level users to the Databricks workspace.
+# This will create corresponding workspace-level users.
+resource "databricks_permission_assignment" "user" {
+  for_each = data.databricks_workspace_iam_external_user_v2.this
+
+  principal_id = each.value.internal_id
+  permissions  = var.users[each.key].admin_access ? ["ADMIN"] : ["USER"]
+}
+
+# Retrieve information about the corresponding workspace-level users.
+data "databricks_user" "this" {
+  for_each = databricks_permission_assignment.user
+
+  user_name = each.value.user_name
+}
+
+# Set entitlements to the workspace-level users.
+resource "databricks_entitlements" "user" {
+  for_each = data.databricks_user.this
+
+  user_id               = each.value.id
+  workspace_access      = var.groups[each.key].workspace_access
+  databricks_sql_access = var.groups[each.key].databricks_sql_access
+  allow_cluster_create  = var.groups[each.key].allow_cluster_create
+}
+
 data "databricks_workspace_iam_external_group_v2" "this" {
   for_each = var.groups
 
