@@ -25,9 +25,9 @@ resource "databricks_entitlements" "user" {
   for_each = data.databricks_user.this
 
   user_id               = each.value.id
-  workspace_access      = var.groups[each.key].workspace_access
-  databricks_sql_access = var.groups[each.key].databricks_sql_access
-  allow_cluster_create  = var.groups[each.key].allow_cluster_create
+  workspace_access      = var.users[each.key].workspace_access
+  databricks_sql_access = var.users[each.key].databricks_sql_access
+  allow_cluster_create  = var.users[each.key].allow_cluster_create
 }
 
 data "databricks_workspace_iam_external_group_v2" "this" {
