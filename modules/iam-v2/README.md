@@ -18,7 +18,7 @@ Use a [workspace-level Databricks provider](https://registry.terraform.io/provid
 ```terraform
 module "databricks_iam_v2" {
   source  = "equinor/databricks/azurerm//modules/iam-v2"
-  version = "~> 4.5"
+  version = "~> 4.6"
 
   groups = {
     "users" = {
